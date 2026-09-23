@@ -1,0 +1,270 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DOE Day 4 最佳化工坊</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --ground:#f3f5fa; --panel:#ffffff; --ink:#0d1a3d; --ink2:#4a5677; --line:#d5dbea;
+  --navy:#0b2a6f; --blue:#2f6fd6; --blueSoft:#dce7fb; --red:#c8102e; --redSoft:#fbe0e4;
+  --ok:#1a8a55; --warn:#c77700; --grid:#e6eaf3;
+  --sans:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark; --ground:#0b1224; --panel:#131d36; --ink:#e8edf8; --ink2:#a4b0cc; --line:#2a3757;
+  --navy:#9dbbff; --blue:#6c9cff; --blueSoft:#1d2f57; --red:#ff5a6e; --redSoft:#3a1a24; --ok:#45c586; --warn:#f0a93a; --grid:#1c2744;}}
+:root[data-theme="dark"]{
+  color-scheme:dark; --ground:#0b1224; --panel:#131d36; --ink:#e8edf8; --ink2:#a4b0cc; --line:#2a3757;
+  --navy:#9dbbff; --blue:#6c9cff; --blueSoft:#1d2f57; --red:#ff5a6e; --redSoft:#3a1a24; --ok:#45c586; --warn:#f0a93a; --grid:#1c2744;}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:20px 40px}
+.wrap{max-width:1180px;margin:0 auto}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:18px}
+.brand small{display:block;font-size:13px;letter-spacing:.14em;color:var(--red);font-weight:700}
+h1{font-size:clamp(24px,3.4vw,38px);font-weight:900;margin:0;line-height:1.15;text-wrap:balance}
+h1 span{color:var(--blue)}
+.lede{color:var(--ink2);margin:0;max-width:52ch;font-size:15px}
+nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;border-bottom:2px solid var(--line)}
+nav button{flex:0 0 auto;font:inherit;font-size:15px;font-weight:700;color:var(--ink2);background:none;border:0;border-bottom:4px solid transparent;padding:8px 12px;cursor:pointer;margin-bottom:-8px}
+nav button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--red)}
+nav button:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.stage{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,1fr);gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+@media (max-width:820px){.stage{grid-template-columns:1fr}}
+.viz{min-width:0}
+.viz svg{width:100%;height:auto;display:block}
+.side{display:flex;flex-direction:column;gap:14px}
+.side h2{font-size:22px;margin:0;line-height:1.3;text-wrap:balance}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--red);background:var(--redSoft);border-radius:4px;padding:2px 8px}
+.say{margin:0;color:var(--ink2);font-size:15px}
+.ctl{display:flex;flex-direction:column;gap:4px}
+.ctl label{display:flex;justify-content:space-between;font-weight:700;font-size:14px}
+.ctl output{font-family:var(--mono);color:var(--blue)}
+input[type=range]{width:100%;accent-color:var(--blue)}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{font:inherit;font-weight:700;font-size:15px;border-radius:8px;padding:9px 14px;cursor:pointer;border:2px solid var(--navy);background:var(--navy);color:var(--panel)}
+.btn.ghost{background:transparent;color:var(--navy)}
+.btn.alert{background:var(--red);border-color:var(--red);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.stat{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.stat b{display:block;font-family:var(--mono);font-size:22px;color:var(--navy);font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--ink2)}
+.stat.bad b{color:var(--red)} .stat.good b{color:var(--ok)}
+.key{margin:0;padding:10px 12px;border-left:4px solid var(--red);background:var(--redSoft);border-radius:0 8px 8px 0;font-weight:700;font-size:15px}
+.toggles{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.toggles label{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:700;font-size:14px}
+.toggles input{width:18px;height:18px;accent-color:var(--red)}
+svg text{font-family:var(--sans)}
+.foot{margin-top:14px;color:var(--ink2);font-size:13px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.embed header,.embed nav,.embed .foot{display:none}
+.embed body,body.embed{padding-block:8px}
+.embed .stage{border:0;border-radius:0;padding:12px}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="brand"><small>DOE 實驗設計實戰營 · DAY 4</small><h1>省實驗次數，<span>找到最佳參數</span></h1></div>
+  <p class="lede">上課投影用的互動教具。每一頁對應講義的一個單元：先讓學員猜，再按按鈕、拉滑桿，讓數據自己說話。</p>
+</header>
+<nav role="tablist" id="tabs"></nav>
+<section class="stage" id="stage"></section>
+<p class="foot">資料為課堂模擬值。建議投影時用瀏覽器全螢幕（F11）。</p>
+</div>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+/* embed-mode: inside PowerPoint Web Viewer or any iframe, hide header/tabs */
+try{if(window.self!==window.top||/embed/.test(location.hash)){document.documentElement.classList.add('embed');document.body.classList.add('embed')}}catch(e){document.body.classList.add('embed')}
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const rn=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
+const mean=a=>a.reduce((s,x)=>s+x,0)/(a.length||1);
+const sd=a=>{if(a.length<2)return 0;const m=mean(a);return Math.sqrt(a.reduce((s,x)=>s+(x-m)**2,0)/(a.length-1))};
+const f=(x,d=2)=>Number.isFinite(x)?x.toFixed(d):'—';
+const Phi=z=>{const t=1/(1+0.2316419*Math.abs(z)),d=0.3989423*Math.exp(-z*z/2);let p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return z>0?1-p:p};
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attr={},parent){const e=document.createElementNS(NS,tag);for(const k in attr)e.setAttribute(k,attr[k]);if(parent)parent.appendChild(e);return e}
+function txt(p,x,y,s,o={}){const t=el('text',Object.assign({x,y,fill:css('--ink2'),'font-size':14},o),p);t.textContent=s;return t}
+function svg(w,h){const s=el('svg',{viewBox:`0 0 ${w} ${h}`,role:'img'});return s}
+function axis(s,x0,y0,x1,y1,ticks,sx,lab){el('line',{x1:x0,y1:y0,x2:x1,y2:y0,stroke:css('--ink2'),'stroke-width':1.5},s);ticks.forEach(t=>{const x=sx(t);el('line',{x1:x,y1:y0,x2:x,y2:y0+6,stroke:css('--ink2')},s);txt(s,x,y0+22,String(t),{'text-anchor':'middle','font-family':css('--mono')})});if(lab)txt(s,(x0+x1)/2,y0+44,lab,{'text-anchor':'middle','font-weight':700,fill:css('--ink')})}
+
+const tcrit=df=>({1:12.71,2:4.30,3:3.18,4:2.78,5:2.57,6:2.45,7:2.36,8:2.31,9:2.26,10:2.23,12:2.18,16:2.12,24:2.06})[df]||2.1;
+function heat2(s,x0,y0,w,h,fn,lo,hi,N=36){for(let i=0;i<N;i++)for(let j=0;j<N;j++){const a=-1.6+(i+.5)/N*3.2,b=-1.6+(j+.5)/N*3.2,v=Math.max(0,Math.min(1,(fn(a,b)-lo)/(hi-lo)));el('rect',{x:x0+i*w/N,y:y0+h-(j+1)*h/N,width:w/N+.6,height:h/N+.6,fill:`hsl(${220-200*v},70%,${88-40*v}%)`},s)}}
+function frame2(s,x0,y0,w,h,la,lb,ticks){el('rect',{x:x0,y:y0,width:w,height:h,fill:'none',stroke:css('--ink2')},s);ticks.forEach(([v,l])=>{const t=(v+1.6)/3.2;txt(s,x0+t*w,y0+h+18,l,{'text-anchor':'middle','font-family':css('--mono'),'font-size':12});txt(s,x0-6,y0+h-t*h+4,l,{'text-anchor':'end','font-family':css('--mono'),'font-size':12})});txt(s,x0+w/2,y0+h+38,la,{'text-anchor':'middle','font-weight':700,fill:css('--ink')});const t=txt(s,x0-40,y0+h/2,lb,{'text-anchor':'middle','font-weight':700,fill:css('--ink')});t.setAttribute('transform',`rotate(-90 ${x0-40} ${y0+h/2})`)}
+const heli=(a,b)=>3.05+0.18*a+0.12*b-0.16*a*a-0.10*b*b-0.05*a*b;
+const LESSONS=[
+{id:'explode',tab:'暖身｜組合爆炸',tag:'暖身 · 實驗次數',title:'因子一多，全因子實驗會爆炸',
+ say:'拉「因子數」看全因子要做幾次；再拉「每次實驗時間」算要花幾小時。對照部分因子（解析度 IV）只要多少次。',
+ key:'因子多時先用部分因子「篩選」，把不重要的 X 刪掉，再對關鍵 X 做細的實驗。',
+ init(v,side){const W=720,H=380,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="ek">因子數 k <output id="oek"></output></label><input type="range" id="ek" min="2" max="10" value="7"></div><div class="ctl"><label for="et">每次實驗時間（分鐘） <output id="oet"></output></label><input type="range" id="et" min="1" max="60" value="30"></div><div class="stats"><div class="stat bad"><b id="efull">—</b><span>全因子（重複 2 次）</span></div><div class="stat good"><b id="efrac">—</b><span>部分因子 解析度 IV（重複 2 次）</span></div></div>`;
+  const res4={2:4,3:8,4:8,5:16,6:16,7:16,8:16,9:32,10:32};
+  function draw(){s.innerHTML='';const k=+$('#ek').value,t=+$('#et').value;$('#oek').textContent=k;$('#oet').textContent=t;
+   const x0=80,x1=W-20,y1=320,maxLog=Math.log2(1024*2);const sy=v=>y1-Math.log2(v)/maxLog*270;
+   [2,8,32,128,512,2048].forEach(v=>{el('line',{x1:x0,y1:sy(v),x2:x1,y2:sy(v),stroke:css('--grid')},s);txt(s,x0-8,sy(v)+5,String(v),{'text-anchor':'end','font-family':css('--mono')})});
+   for(let n=2;n<=10;n++){const bx=x0+(n-2)*70+10,full=2**n*2,fr=res4[n]*2;el('rect',{x:bx,y:sy(full),width:26,height:y1-sy(full),fill:css('--red'),opacity:n===k?1:.3},s);el('rect',{x:bx+28,y:sy(fr),width:26,height:y1-sy(fr),fill:css('--blue'),opacity:n===k?1:.3},s);txt(s,bx+27,y1+20,String(n),{'text-anchor':'middle','font-family':css('--mono'),'font-weight':n===k?900:400,fill:n===k?css('--ink'):css('--ink2')})}
+   txt(s,(x0+x1)/2,y1+44,'因子數 k',{'text-anchor':'middle','font-weight':700,fill:css('--ink')});txt(s,x0,24,'實驗次數（對數刻度）  ■ 全因子　■ 部分因子',{'font-weight':700,fill:css('--ink')});
+   const full=2**k*2,fr=res4[k]*2,hr=v=>v*t/60;$('#efull').textContent=full+' 次／'+f(hr(full),0)+' 小時';$('#efrac').textContent=fr+' 次／'+f(hr(fr),1)+' 小時'}
+  ['#ek','#et'].forEach(k=>$(k).oninput=draw);draw();}},
+{id:'alias',tab:'一｜部分因子設計：別名',tag:'單元一 · 部分因子設計',title:'D 欄和 A×B×C 欄，一模一樣',
+ say:'2^(4−1) 部分因子：只做 8 次，第 4 個因子 D 用「A×B×C」的正負號來排。按下按鈕，看 D 欄和 ABC 欄是否穿同一件制服。',
+ key:'混淆（別名）：兩個效果算出來是同一個數字，分不開。看到「D 很重要」時，也可能是 ABC。通常高階交互作用很小，所以大多是 D。',
+ init(v,side){const W=720,H=400,s=svg(W,H);v.appendChild(s);let hl='D';
+  side.querySelector('.ctlbox').innerHTML=`<div class="btns"><button class="btn" data-h="D">D ＝ ABC</button><button class="btn ghost" data-h="AB">AB ＝ CD</button><button class="btn ghost" data-h="AC">AC ＝ BD</button><button class="btn ghost" data-h="AD">AD ＝ BC</button></div><div class="stats"><div class="stat"><b>8 次</b><span>部分因子實驗次數</span></div><div class="stat"><b>16 次</b><span>全因子要做的次數</span></div></div>`;
+  side.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>{hl=b.dataset.h;side.querySelectorAll('[data-h]').forEach(x=>x.className='btn'+(x===b?'':' ghost'));draw()});
+  const pairs={D:['D','ABC'],AB:['AB','CD'],AC:['AC','BD'],AD:['AD','BC']};
+  function draw(){s.innerHTML='';const rows=[];for(let c=-1;c<=1;c+=2)for(let b=-1;b<=1;b+=2)for(let a=-1;a<=1;a+=2)rows.push({A:a,B:b,C:c,D:a*b*c});
+   const col=(r,n)=>n.split('').reduce((p,ch)=>p*r[ch],1);const cols=['A','B','C','D','AB','CD','AC','BD','AD','BC','ABC'];const [p,q]=pairs[hl];
+   const x0=60,cw=56,y0=50,rh=38;txt(s,20,y0-18,'Run',{'font-weight':700});
+   cols.forEach((n,j)=>{const on=n===p||n===q;if(on)el('rect',{x:x0+j*cw+2,y:y0-34,width:cw-4,height:rh*8+42,rx:8,fill:n===p?css('--redSoft'):css('--blueSoft'),stroke:n===p?css('--red'):css('--blue'),'stroke-width':2},s);txt(s,x0+j*cw+cw/2,y0-12,n,{'text-anchor':'middle','font-weight':900,fill:on?css('--ink'):css('--ink2'),'font-family':css('--mono')})});
+   rows.forEach((r,i)=>{txt(s,30,y0+i*rh+24,String(i+1),{'text-anchor':'middle','font-family':css('--mono')});cols.forEach((n,j)=>{const v=col(r,n);txt(s,x0+j*cw+cw/2,y0+i*rh+24,v>0?'+':'−',{'text-anchor':'middle','font-size':20,'font-weight':900,fill:v>0?css('--red'):css('--blue')})})});
+   txt(s,W/2,y0+rh*8+30,`${p} 欄 與 ${q} 欄 的正負號完全相同 → 效果分不開`,{'text-anchor':'middle','font-weight':900,fill:css('--red'),'font-size':16})}
+  draw();}},
+{id:'resolution',tab:'一｜部分因子設計：解析度',tag:'單元一 · 部分因子設計',title:'因子數 × 實驗次數 → 看得多清楚',
+ say:'選因子數和實驗次數，看得到的解析度。III：主效果和兩因子交互作用黏在一起；IV：主效果乾淨；V：主效果和兩因子交互作用都乾淨。',
+ key:'篩選最常用解析度 IV：主效果不被兩因子交互作用干擾，次數又省。',
+ init(v,side){const W=720,H=400,s=svg(W,H);v.appendChild(s);let sel=[7,16];
+  side.querySelector('.ctlbox').innerHTML=`<p class="say" id="rdesc"></p><div class="stats"><div class="stat"><b id="rres">—</b><span>解析度</span></div><div class="stat"><b id="rfrac">—</b><span>設計</span></div></div>`;
+  const T={2:{4:'Full'},3:{4:'III',8:'Full'},4:{8:'IV',16:'Full'},5:{8:'III',16:'V',32:'Full'},6:{8:'III',16:'IV',32:'VI'},7:{8:'III',16:'IV',32:'IV',64:'VII'},8:{16:'IV',32:'IV',64:'V'},9:{16:'III',32:'IV',64:'IV'},10:{16:'III',32:'IV',64:'IV'}};
+  const C={'III':css('--red'),'IV':css('--warn'),'V':css('--ok'),'VI':css('--ok'),'VII':css('--ok'),'Full':css('--navy')};
+  const D={'III':'近視沒戴眼鏡：主效果和兩因子交互作用混在一起，只能粗篩。','IV':'戴了眼鏡但有點霧：主效果乾淨；兩因子交互作用彼此混淆。最常用的篩選設計。','V':'看得很清楚：主效果、兩因子交互作用都乾淨。','VI':'非常清楚，但次數多。','VII':'非常清楚，但次數多。','Full':'全因子：什麼都看得到，沒有混淆。'};
+  function draw(){s.innerHTML='';const ks=[3,4,5,6,7,8,9,10],ns=[4,8,16,32,64],x0=110,y0=50,cw=70,rh=40;
+   txt(s,x0+cw*2.5,24,'實驗次數 →',{'text-anchor':'middle','font-weight':900,fill:css('--ink')});txt(s,20,y0+rh*4,'因子數',{'font-weight':900,fill:css('--ink')});
+   ns.forEach((n,j)=>txt(s,x0+j*cw+cw/2,y0-8,String(n),{'text-anchor':'middle','font-family':css('--mono'),'font-weight':700}));
+   ks.forEach((k,i)=>{txt(s,x0-12,y0+i*rh+26,String(k),{'text-anchor':'end','font-family':css('--mono'),'font-weight':700});ns.forEach((n,j)=>{const r=(T[k]||{})[n];const on=sel[0]===k&&sel[1]===n;const g=el('g',{style:'cursor:pointer'},s);
+     el('rect',{x:x0+j*cw+2,y:y0+i*rh+2,width:cw-4,height:rh-4,rx:6,fill:r?C[r]:css('--grid'),opacity:r?(on?1:.55):1,stroke:on?css('--ink'):'none','stroke-width':3},g);if(r)txt(g,x0+j*cw+cw/2,y0+i*rh+26,r==='Full'?'全因子':r,{'text-anchor':'middle',fill:'#fff','font-weight':900});
+     if(r)g.addEventListener('click',()=>{sel=[k,n];draw()})})});
+   const r=T[sel[0]][sel[1]];const p=Math.round(Math.log2(2**sel[0]/sel[1]));$('#rres').textContent=r==='Full'?'全因子':r;$('#rfrac').textContent=r==='Full'?`2^${sel[0]}`:`2^(${sel[0]}−${p})`;$('#rdesc').textContent=D[r]}
+  draw();}},
+{id:'screen',tab:'實驗⑤｜7 因子篩選',tag:'實驗⑤ · 部分因子設計篩選',title:'16 次實驗，從 7 個 X 裡找出關鍵 3 個',
+ say:'紙直升機 7 個因子，用 2^(7−3) 解析度 IV 做 16 次。真正有影響的只有翼長、身長、迴紋針。按「重新實驗」幾次，看柏拉圖是否每次都抓得到。',
+ key:'篩選的目的：放心刪掉不重要的 X，把資源集中在關鍵 X 上做最佳化。',
+ init(v,side){const W=720,H=380,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="sn4">實驗雜訊 σ <output id="osn4"></output></label><input type="range" id="sn4" min="0.02" max="0.3" step="0.02" value="0.08"></div><div class="btns"><button class="btn" id="sgo4">重新實驗</button></div><div class="stats"><div class="stat"><b id="sfound">—</b><span>被判定重要的因子</span></div><div class="stat"><b>16 次</b><span>全因子要 128 次</span></div></div>`;
+  const names=['A 翼長','B 身長','C 迴紋針','D 紙材','E 身寬','F 摺邊','G 膠帶'],tr=[0.36,0.24,-0.3,0.03,0.02,-0.02,0.01];
+  function draw(){s.innerHTML='';const sg=+$('#sn4').value;$('#osn4').textContent=f(sg,2);
+   const runs=[];for(let i=0;i<16;i++){const a=i&1?1:-1,b=i&2?1:-1,c=i&4?1:-1,d=i&8?1:-1;const x=[a,b,c,d,a*b*c,b*c*d,a*c*d];runs.push({x,y:2.8+x.reduce((t,v,j)=>t+tr[j]/2*v,0)+rn()*sg})}
+   const eff=names.map((n,j)=>runs.reduce((t,r)=>t+r.x[j]*r.y,0)/8);const res=runs.map(r=>r.y-mean(runs.map(q=>q.y))-r.x.reduce((t,v,j)=>t+eff[j]/2*v,0));const se=Math.sqrt(res.reduce((t,v)=>t+v*v,0)/8)*2/4;const thr=2.31*se;
+   const list=names.map((n,j)=>[n,eff[j]]).sort((a,b)=>Math.abs(b[1])-Math.abs(a[1]));const px0=150,pw=480,mx=0.45;
+   txt(s,px0,28,'效果柏拉圖（|效果|，秒）',{'font-weight':900,fill:css('--ink')});
+   list.forEach(([n,e],i)=>{const y=44+i*42,sig=Math.abs(e)>thr;el('rect',{x:px0,y,width:Math.min(pw,Math.abs(e)/mx*pw),height:28,fill:sig?css('--red'):css('--blue'),opacity:sig?1:.5},s);txt(s,px0-10,y+20,n,{'text-anchor':'end','font-weight':700,fill:css('--ink')});txt(s,px0+6+Math.min(pw,Math.abs(e)/mx*pw),y+20,f(e,2),{'font-family':css('--mono'),'font-size':12})});
+   const x=px0+Math.min(pw,thr/mx*pw);el('line',{x1:x,y1:38,x2:x,y2:340,stroke:css('--red'),'stroke-width':2.5,'stroke-dasharray':'6 4'},s);txt(s,x,358,'紅線 '+f(thr,2),{'text-anchor':'middle',fill:css('--red'),'font-weight':700});
+   $('#sfound').textContent=list.filter(([n,e])=>Math.abs(e)>thr).map(x=>x[0].split(' ')[0]).join('、')||'無'}
+  $('#sn4').oninput=draw;$('#sgo4').onclick=draw;draw();}},
+{id:'taguchi',tab:'二｜田口品質工程設計',tag:'單元二 · 田口品質工程設計',title:'無風時最好的設計，一有風就不行',
+ say:'4 種紙直升機設計（控制因子），每種在「無風」「有風」（雜訊因子）下各丟 3 次。拉「風力」，看哪一種設計平均最高、哪一種 S/N 比最高。',
+ key:'田口品質工程設計：用 S/N 比找出對干擾不敏感的穩健設計。先選 S/N 最大（最穩），再用其他因子把平均調上來。',
+ init(v,side){const W=720,H=320,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="tw">風力（雜訊強度） <output id="otw"></output></label><input type="range" id="tw" min="0" max="1" step="0.1" value="0.7"></div><div class="btns"><button class="btn" id="tgo5">重新實驗</button></div><div class="stats"><div class="stat"><b id="tbm">—</b><span>只在無風下測，會選中的設計</span></div><div class="stat good"><b id="tbs">—</b><span>S/N 最高（最穩健）的設計</span></div></div>`;
+  const D=[['設計1','翼 10／夾 1',3.4,1.4],['設計2','翼 10／夾 2',3.15,0.25],['設計3','翼 7／夾 1',2.9,0.8],['設計4','翼 7／夾 2',2.7,0.1]];
+  function draw(){s.innerHTML='';const w=+$('#tw').value;$('#otw').textContent=f(w,1);
+   const res=D.map(([n,l,b,k])=>{const y0=[0,1,2].map(()=>b+rn()*0.05),y1=[0,1,2].map(()=>b-k*w+rn()*0.05),all=[...y0,...y1];const sn=-10*Math.log10(mean(all.map(y=>1/(y*y))));return {n,l,y0,y1,m:mean(all),sn}});
+   const x0=70,y0=30,h=230,lo=1.6,hi=3.6,sy=v=>y0+h-(v-lo)/(hi-lo)*h;
+   for(let v=2;v<=3.5;v+=0.5){el('line',{x1:x0,y1:sy(v),x2:x0+400,y2:sy(v),stroke:css('--grid')},s);txt(s,x0-8,sy(v)+5,f(v,1),{'text-anchor':'end','font-family':css('--mono')})}
+   txt(s,x0,18,'滯空秒數：● 無風　● 有風',{'font-weight':700,fill:css('--ink')});
+   const bm=res.reduce((a,b)=>mean(b.y0)>mean(a.y0)?b:a),bs=res.reduce((a,b)=>b.sn>a.sn?b:a);
+   res.forEach((r,i)=>{const cx=x0+50+i*100;r.y0.forEach((y,j)=>el('circle',{cx:cx-14+j*4,cy:sy(y),r:6,fill:css('--blue'),opacity:.85},s));r.y1.forEach((y,j)=>el('circle',{cx:cx+6+j*4,cy:sy(y),r:6,fill:css('--red'),opacity:.85},s));
+     el('line',{x1:cx-30,y1:sy(r.m),x2:cx+30,y2:sy(r.m),stroke:css('--ink'),'stroke-width':3},s);txt(s,cx,y0+h+20,r.n,{'text-anchor':'middle','font-weight':900,fill:r===bs?css('--ok'):css('--ink')});txt(s,cx,y0+h+38,r.l,{'text-anchor':'middle','font-size':12})});
+   const bx0=500,bw=150;txt(s,bx0,18,'S/N 比（望大，dB）',{'font-weight':700,fill:css('--ink')});const snMin=Math.min(...res.map(r=>r.sn))-1,snMax=Math.max(...res.map(r=>r.sn));
+   res.forEach((r,i)=>{const y=40+i*58,wd=(r.sn-snMin)/(snMax-snMin)*bw;el('rect',{x:bx0,y,width:Math.max(4,wd),height:34,fill:r===bs?css('--ok'):css('--blue'),opacity:r===bs?1:.5},s);txt(s,bx0+Math.max(4,wd)+6,y+22,f(r.sn,2),{'font-family':css('--mono'),'font-size':13});txt(s,bx0-6,y+22,r.n,{'text-anchor':'end','font-weight':700,fill:css('--ink')})});
+   $('#tbm').textContent=bm.n+'（'+bm.l+'）';$('#tbs').textContent=bs.n+'（'+bs.l+'）'}
+  $('#tw').oninput=draw;$('#tgo5').onclick=draw;draw();}},
+{id:'curve',tab:'四｜曲率與中心點',tag:'單元四 · Curvature',title:'兩點只能畫直線，中心點揭穿山頂',
+ say:'射出溫度 → 良率：太低短射、太高毛邊。2 水準實驗只量兩端，會以為是直線。打開「加中心點」，看中心點離直線多遠。',
+ key:'中心點比直線預測高很多 → 有曲率 → 需要 RSM。中心點重複還能估計實驗誤差。',
+ init(v,side){const W=720,H=380,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="toggles"><label><input type="checkbox" id="cc" checked>加中心點（4 次）</label><label><input type="checkbox" id="ct" checked>顯示真實曲線</label></div><div class="ctl"><label for="cb">彎曲程度 <output id="ocb"></output></label><input type="range" id="cb" min="0" max="12" step="1" value="8"></div><div class="stats"><div class="stat" id="ccb"><b id="cgap">—</b><span>中心點 − 直線預測（%）</span></div><div class="stat"><b id="cver">—</b><span>判斷</span></div></div>`;
+  function draw(){s.innerHTML='';const bend=+$('#cb').value;$('#ocb').textContent=bend;const tr=x=>88+2*x-bend*x*x;
+   const x0=80,x1=W-30,y0=30,y1=300,sx=x=>x0+(x+1.3)/2.6*(x1-x0),sy=v=>y1-(v-70)/30*(y1-y0);
+   for(let v=70;v<=100;v+=10){el('line',{x1:x0,y1:sy(v),x2:x1,y2:sy(v),stroke:css('--grid')},s);txt(s,x0-8,sy(v)+5,v+'%',{'text-anchor':'end','font-family':css('--mono')})}
+   if($('#ct').checked){let d='';for(let i=0;i<=100;i++){const x=-1.3+2.6*i/100;d+=(i?'L':'M')+sx(x)+' '+sy(tr(x))}el('path',{d,fill:'none',stroke:css('--ok'),'stroke-width':3,'stroke-dasharray':'8 5'},s);txt(s,sx(0),sy(tr(0))-12,'真實關係',{'text-anchor':'middle',fill:css('--ok'),'font-weight':700})}
+   const lo=[1,2].map(()=>tr(-1)+rn()*0.8),hi=[1,2].map(()=>tr(1)+rn()*0.8);el('line',{x1:sx(-1.3),y1:sy(mean(lo)+(mean(hi)-mean(lo))/2*(-0.3)),x2:sx(1.3),y2:sy(mean(hi)+(mean(hi)-mean(lo))/2*0.3),stroke:css('--blue'),'stroke-width':3},s);
+   [...lo.map(v=>[-1,v]),...hi.map(v=>[1,v])].forEach(([x,v])=>el('circle',{cx:sx(x),cy:sy(v),r:8,fill:css('--blue')},s));
+   const lin=(mean(lo)+mean(hi))/2;let gap=null;if($('#cc').checked){const c=[1,2,3,4].map(()=>tr(0)+rn()*0.8);c.forEach((v,i)=>el('rect',{x:sx(0)-8+(i-1.5)*12,y:sy(v)-8,width:16,height:16,fill:css('--red')},s));gap=mean(c)-lin;el('line',{x1:sx(0),y1:sy(lin),x2:sx(0),y2:sy(mean(c)),stroke:css('--red'),'stroke-width':2,'stroke-dasharray':'4 3'},s);el('circle',{cx:sx(0),cy:sy(lin),r:6,fill:'none',stroke:css('--blue'),'stroke-width':2},s)}
+   [[-1,'低溫 220°C'],[0,'中心 240°C'],[1,'高溫 260°C']].forEach(([x,l])=>txt(s,sx(x),y1+22,l,{'text-anchor':'middle','font-weight':700,fill:css('--ink')}));txt(s,x0,y0-10,'良率（%）',{'font-weight':700});
+   $('#cgap').textContent=gap===null?'—':(gap>0?'+':'')+f(gap,1);$('#cver').textContent=gap===null?'加中心點才知道':(Math.abs(gap)>2.5?'有彎 → 用 RSM':'直線夠用');$('#ccb').className='stat '+(gap!==null&&Math.abs(gap)>2.5?'bad':'')}
+  ['#cc','#ct'].forEach(k=>$(k).onchange=draw);$('#cb').oninput=draw;draw();}},
+{id:'ccd',tab:'五｜反應曲面設計 CCD',tag:'單元五 · 反應曲面設計',title:'四角＋中心＋星點，畫出參數地形圖',
+ say:'翼長 × 身長的 CCD：藍色四角、紅色中心點、綠色星點。按「做實驗並配二次模型」，看地形圖（等高線）與山頂在哪。',
+ key:'反應曲面設計的二次模型「多了平方項，所以會彎」；等高線圖中心那一圈就是山頂，山頂附近平坦的區域最適合當量產操作窗。',
+ init(v,side){const W=560,H=470,s=svg(W,H);v.appendChild(s);let fit=true;
+  side.querySelector('.ctlbox').innerHTML=`<div class="toggles"><label><input type="checkbox" id="cf" checked>角點 4</label><label><input type="checkbox" id="cs" checked>星點 4</label></div><div class="btns"><button class="btn" id="cfit">做實驗並配二次模型</button><button class="btn ghost" id="c0">清除</button></div><div class="stats"><div class="stat"><b id="copt">—</b><span>山頂（翼長, 身長）</span></div><div class="stat"><b id="cy">—</b><span>預測最長滯空（秒）</span></div></div>`;
+  const toCm=v=>f(8.5+1.5*v,1);
+  function draw(){s.innerHTML='';const x0=80,y0=20,w=440,h=380;if(fit)heat2(s,x0,y0,w,h,heli,2.3,3.2);else el('rect',{x:x0,y:y0,width:w,height:h,fill:css('--blueSoft')},s);
+   frame2(s,x0,y0,w,h,'翼長（cm）','身長（cm）',[[-1.41,toCm(-1.41)],[-1,toCm(-1)],[0,toCm(0)],[1,toCm(1)],[1.41,toCm(1.41)]]);
+   const P=(a,b)=>[x0+(a+1.6)/3.2*w,y0+h-(b+1.6)/3.2*h];
+   if(fit){for(const lv of [2.6,2.8,2.95,3.05]){for(let i=0;i<60;i++){const th=i/60*2*Math.PI;}}}
+   if($('#cf').checked)[[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([a,b])=>{const [cx,cy]=P(a,b);el('rect',{x:cx-9,y:cy-9,width:18,height:18,fill:css('--navy'),stroke:'#fff','stroke-width':2},s)});
+   if($('#cs').checked)[[-1.41,0],[1.41,0],[0,-1.41],[0,1.41]].forEach(([a,b])=>{const [cx,cy]=P(a,b);el('path',{d:`M${cx} ${cy-12} L${cx+11} ${cy+8} L${cx-11} ${cy+8}Z`,fill:css('--ok'),stroke:'#fff','stroke-width':2},s)});
+   {const [cx,cy]=P(0,0);el('circle',{cx,cy,r:10,fill:css('--red'),stroke:'#fff','stroke-width':2},s)}
+   if(fit){let best=[0,0,-9];for(let a=-1.41;a<=1.41;a+=0.02)for(let b=-1.41;b<=1.41;b+=0.02){const y=heli(a,b);if(y>best[2])best=[a,b,y]}const [cx,cy]=P(best[0],best[1]);el('circle',{cx,cy,r:16,fill:'none',stroke:'#fff','stroke-width':4},s);el('circle',{cx,cy,r:16,fill:'none',stroke:css('--ink'),'stroke-width':1.5},s);txt(s,cx+20,cy-12,'山頂',{fill:'#fff','font-weight':900,'font-size':16,stroke:'#000','stroke-width':.5});
+     $('#copt').textContent=toCm(best[0])+', '+toCm(best[1])+' cm';$('#cy').textContent=f(best[2],2)}else{$('#copt').textContent='—';$('#cy').textContent='—'}
+   const n=4*($('#cf').checked?1:0)+4*($('#cs').checked?1:0)+5;txt(s,x0+w,14,`共 ${n} 次（含中心點 5 次）`,{'text-anchor':'end','font-weight':700,fill:css('--ink')})}
+  ['#cf','#cs'].forEach(k=>$(k).onchange=()=>{fit=false;draw()});$('#cfit').onclick=()=>{fit=$('#cf').checked&&$('#cs').checked;if(!fit){$('#copt').textContent='點不夠，配不出二次模型'}else draw()};$('#c0').onclick=()=>{fit=false;draw()};draw();}},
+{id:'desir',tab:'五｜多反應最佳化',tag:'單元五 · 反應曲面設計',title:'滯空要長、紙要省：兩個 Y 怎麼取捨？',
+ say:'Y1 滯空秒數（越大越好）、Y2 用紙面積（越小越好，翼越長越費紙）。拉兩個權重，看總滿意度地圖的最佳點怎麼移動。勾「固定身長」模擬現場調不動的因子。',
+ key:'每個 Y 換成 0～1 的滿意度，再依權重合成。任一個 Y 不合格，總分就趨近 0 → 只在全部合格的區域找。',
+ init(v,side){const W=560,H=470,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="w1">Y1 滯空 權重 <output id="ow1"></output></label><input type="range" id="w1" min="0.2" max="3" step="0.1" value="1"></div><div class="ctl"><label for="w2">Y2 省紙 權重 <output id="ow2"></output></label><input type="range" id="w2" min="0.2" max="3" step="0.1" value="1"></div><div class="toggles"><label><input type="checkbox" id="fx">固定身長 = 8.5 cm</label></div><div class="stats"><div class="stat"><b id="dopt">—</b><span>最佳（翼長, 身長）cm</span></div><div class="stat"><b id="dD">—</b><span>總滿意度 D</span></div><div class="stat"><b id="dy1">—</b><span>預測滯空（秒）</span></div><div class="stat"><b id="dy2">—</b><span>用紙面積（cm²）</span></div></div>`;
+  const paper=(a,b)=>2*(8.5+1.5*a)*4+(8.5+1.5*b)*4;const d1=y=>Math.max(0,Math.min(1,(y-2.5)/(3.15-2.5))),d2=p=>Math.max(0,Math.min(1,(120-p)/(120-80)));
+  function draw(){s.innerHTML='';const w1=+$('#w1').value,w2=+$('#w2').value,fx=$('#fx').checked;$('#ow1').textContent=f(w1,1);$('#ow2').textContent=f(w2,1);
+   const D=(a,b)=>{const u=d1(heli(a,b)),v=d2(paper(a,b));return u>0&&v>0?Math.pow(Math.pow(u,w1)*Math.pow(v,w2),1/(w1+w2)):0};
+   const x0=80,y0=20,w=440,h=380;heat2(s,x0,y0,w,h,D,0,1);const toCm=v=>f(8.5+1.5*v,1);frame2(s,x0,y0,w,h,'翼長（cm）','身長（cm）',[[-1.41,toCm(-1.41)],[-1,toCm(-1)],[0,toCm(0)],[1,toCm(1)],[1.41,toCm(1.41)]]);
+   const P=(a,b)=>[x0+(a+1.6)/3.2*w,y0+h-(b+1.6)/3.2*h];if(fx){const [,cy]=P(0,0);el('line',{x1:x0,y1:cy,x2:x0+w,y2:cy,stroke:'#fff','stroke-width':3,'stroke-dasharray':'8 5'},s);txt(s,x0+6,cy-8,'身長固定',{fill:'#fff','font-weight':900,stroke:'#000','stroke-width':.4})}
+   let best=[0,0,-1];for(let a=-1.41;a<=1.41;a+=0.02)for(let b=fx?0:-1.41;b<=(fx?0:1.41);b+=0.02){const d=D(a,b);if(d>best[2])best=[a,b,d]}const [cx,cy]=P(best[0],best[1]);el('circle',{cx,cy,r:15,fill:'none',stroke:'#fff','stroke-width':4},s);el('circle',{cx,cy,r:5,fill:'#fff'},s);txt(s,cx+18,cy-10,'最佳點',{fill:'#fff','font-weight':900,'font-size':16,stroke:'#000','stroke-width':.5});
+   txt(s,x0+w,14,'總滿意度 D：藍 0 → 紅 1',{'text-anchor':'end','font-weight':700,fill:css('--ink')});
+   $('#dopt').textContent=toCm(best[0])+', '+toCm(best[1]);$('#dD').textContent=f(best[2],2);$('#dy1').textContent=f(heli(best[0],best[1]),2);$('#dy2').textContent=f(paper(best[0],best[1]),0)}
+  ['#w1','#w2'].forEach(k=>$(k).oninput=draw);$('#fx').onchange=draw;draw();}},
+{id:'mixture',tab:'六｜混合設計',tag:'單元六 · 混合設計',title:'三種原料怎麼配，強度夠又便宜？',
+ say:'三角形每一點都是一種配方（新料 A＋回收料 B＋色母 C ＝ 100%）。白點是單純形格點的 7 組實驗。拉「成本權重」，看最佳配方怎麼移動；打開限制條件，只在可行區域內找。',
+ key:'混合設計：因子是比例、總和固定 100%，用三角圖＋配方模型找最佳配方。',
+ init(v,side){const W=620,H=470,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="mw">成本權重（0＝只看強度） <output id="omw"></output></label><input type="range" id="mw" min="0" max="1" step="0.05" value="0.5"></div><div class="toggles"><label><input type="checkbox" id="mc" checked>限制：B ≤ 40%、C ≤ 10%</label><label><input type="checkbox" id="mp" checked>顯示 7 組實驗點</label></div><div class="stats"><div class="stat"><b id="mopt">—</b><span>最佳配方 A／B／C</span></div><div class="stat"><b id="mstr">—</b><span>預測強度（MPa）</span></div><div class="stat"><b id="mcost">—</b><span>原料成本（元/kg）</span></div><div class="stat"><b id="mok">—</b><span>強度 ≥ 45？</span></div></div>`;
+  const str=(a,b,c)=>52*a+36*b+22*c+28*a*b-40*b*c;const cost=(a,b,c)=>62*a+24*b+180*c;
+  const V={A:[310,40],B:[70,420],C:[550,420]};const P=(a,b,c)=>[a*V.A[0]+b*V.B[0]+c*V.C[0],a*V.A[1]+b*V.B[1]+c*V.C[1]];
+  function draw(){s.innerHTML='';const w=+$('#mw').value,con=$('#mc').checked;$('#omw').textContent=f(w,2);
+   const sc=(a,b,c)=>{const st=str(a,b,c),co=cost(a,b,c);const d1=Math.max(0,Math.min(1,(st-40)/(52-40))),d2=Math.max(0,Math.min(1,(90-co)/(90-24)));return (1-w)*d1+w*d2};
+   const N=40;let best=null;
+   for(let i=0;i<=N;i++)for(let j=0;j<=N-i;j++){const a=i/N,b=j/N,c=1-a-b;const feas=!con||(b<=0.4+1e-9&&c<=0.1+1e-9);const v=sc(a,b,c);const [x,y]=P(a,b,c);
+     el('circle',{cx:x,cy:y,r:6.5,fill:feas?`hsl(${220-200*v},70%,${86-38*v}%)`:css('--grid'),opacity:feas?1:.9},s);if(feas&&str(a,b,c)>=45&&(!best||v>best.v))best={a,b,c,v}}
+   el('polygon',{points:[V.A,V.B,V.C].map(p=>p.join(',')).join(' '),fill:'none',stroke:css('--ink'),'stroke-width':2},s);
+   txt(s,V.A[0],V.A[1]-12,'A 新料 100%',{'text-anchor':'middle','font-weight':900,fill:css('--ink')});txt(s,V.B[0]-4,V.B[1]+24,'B 回收料 100%',{'text-anchor':'middle','font-weight':900,fill:css('--ink')});txt(s,V.C[0]+4,V.C[1]+24,'C 色母 100%',{'text-anchor':'middle','font-weight':900,fill:css('--ink')});
+   if($('#mp').checked)[[1,0,0],[0,1,0],[0,0,1],[.5,.5,0],[.5,0,.5],[0,.5,.5],[1/3,1/3,1/3]].forEach(([a,b,c])=>{const [x,y]=P(a,b,c);el('circle',{cx:x,cy:y,r:9,fill:'#fff',stroke:css('--ink'),'stroke-width':2},s)});
+   if(best){const [x,y]=P(best.a,best.b,best.c);el('circle',{cx:x,cy:y,r:14,fill:'none',stroke:css('--red'),'stroke-width':4},s);txt(s,x+18,y-10,'最佳配方',{fill:css('--red'),'font-weight':900,'font-size':15});
+     $('#mopt').textContent=[best.a,best.b,best.c].map(v=>f(v*100,0)).join('／')+'%';$('#mstr').textContent=f(str(best.a,best.b,best.c),1);$('#mcost').textContent=f(cost(best.a,best.b,best.c),0);$('#mok').textContent='是'}
+   txt(s,W-10,20,'顏色：藍＝差 → 紅＝好（總滿意度）',{'text-anchor':'end','font-size':13})}
+  $('#mw').oninput=draw;['#mc','#mp'].forEach(k=>$(k).onchange=draw);draw();}},
+{id:'confirm',tab:'七｜確認實驗',tag:'單元七 · Confirmation',title:'預測 3.05 秒：實際做出來，落在區間內嗎？',
+ say:'照最佳條件做 n 次確認實驗。綠色帶是模型的 95% 預測區間。選一種「現實情況」再按「做確認實驗」：模型正確／漏掉一個 X／量測有偏差。',
+ key:'實測平均落在預測區間內 → 模型可信，可以寫進 SOP；落在外面 → 回頭檢查漏掉的 X、量測、範圍外推。',
+ init(v,side){const W=720,H=360,s=svg(W,H);v.appendChild(s);let pts=[];
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="cn5">確認次數 n <output id="ocn5"></output></label><input type="range" id="cn5" min="3" max="15" value="5"></div><div class="btns"><button class="btn" data-sc="0">模型正確</button><button class="btn ghost" data-sc="1">漏掉一個 X</button><button class="btn ghost" data-sc="2">量測偏差</button></div><div class="btns"><button class="btn alert" id="cgo5">做確認實驗</button></div><div class="stats"><div class="stat" id="cvb"><b id="cv">—</b><span>判定</span></div><div class="stat"><b id="cm5">—</b><span>實測平均（秒）</span></div></div>`;
+  let sc=0;side.querySelectorAll('[data-sc]').forEach(b=>b.onclick=()=>{sc=+b.dataset.sc;side.querySelectorAll('[data-sc]').forEach(x=>x.className='btn'+(x===b?'':' ghost'));pts=[];draw()});
+  function draw(){s.innerHTML='';const n=+$('#cn5').value;$('#ocn5').textContent=n;const pred=3.05,pi=0.1;
+   const x0=60,x1=W-20,lo=2.6,hi=3.4,sx=v=>x0+(v-lo)/(hi-lo)*(x1-x0);
+   el('rect',{x:sx(pred-pi),y:40,width:sx(pred+pi)-sx(pred-pi),height:220,fill:css('--ok'),opacity:.18},s);el('line',{x1:sx(pred),y1:30,x2:sx(pred),y2:260,stroke:css('--ok'),'stroke-width':3},s);txt(s,sx(pred),24,'模型預測 3.05 秒（95% 預測區間 ±0.10）',{'text-anchor':'middle',fill:css('--ok'),'font-weight':700});
+   pts.forEach((v,i)=>el('circle',{cx:sx(v),cy:230-i*13,r:7,fill:css('--navy'),opacity:.85},s));
+   if(pts.length){const m=mean(pts);el('line',{x1:sx(m),y1:40,x2:sx(m),y2:260,stroke:css('--red'),'stroke-width':3,'stroke-dasharray':'6 4'},s);txt(s,sx(m),278,'實測平均 '+f(m,2),{'text-anchor':'middle',fill:css('--red'),'font-weight':700});const ok=Math.abs(m-pred)<=pi;$('#cv').textContent=ok?'通過 → 寫進 SOP':'不通過 → 回頭檢查';$('#cvb').className='stat '+(ok?'good':'bad');$('#cm5').textContent=f(m,2)}else{$('#cv').textContent='—';$('#cm5').textContent='—';$('#cvb').className='stat'}
+   axis(s,x0,300,x1,300,[2.6,2.8,3,3.2,3.4],sx,'滯空秒數')}
+  $('#cn5').oninput=()=>{pts=[];draw()};$('#cgo5').onclick=()=>{const n=+$('#cn5').value,shift=[0,-0.22,0.18][sc];pts=Array.from({length:n},()=>3.05+shift+rn()*0.08);draw()};pts=Array.from({length:5},()=>3.05+rn()*0.06);draw();}}
+];
+
+
+const tabs=$('#tabs'),stage=$('#stage');
+function show(i){
+  [...tabs.children].forEach((b,k)=>b.setAttribute('aria-selected',k===i));
+  const L=LESSONS[i];
+  stage.innerHTML=`<div class="viz" id="viz"></div><aside class="side"><span class="tag">${L.tag}</span><h2>${L.title}</h2><p class="say">${L.say}</p><div class="ctlbox" style="display:flex;flex-direction:column;gap:12px"></div><p class="key">${L.key}</p></aside>`;
+  L.init($('#viz'),stage.querySelector('.side'));
+  try{localStorage.setItem('doe_d4_tab',L.id)}catch(e){}
+  if(history.replaceState)history.replaceState(null,'','#'+L.id);
+}
+LESSONS.forEach((L,i)=>{const b=document.createElement('button');b.role='tab';b.textContent=L.tab;b.onclick=()=>show(i);tabs.appendChild(b)});
+let start=0;const h=location.hash.slice(1);let saved=null;try{saved=localStorage.getItem('doe_d4_tab')}catch(e){}
+const pickId=h||saved;const k=LESSONS.findIndex(L=>L.id===pickId);if(k>=0)start=k;
+show(start);
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;const cur=[...tabs.children].findIndex(b=>b.getAttribute('aria-selected')==='true');if(e.key==='ArrowRight'&&cur<LESSONS.length-1)show(cur+1);if(e.key==='ArrowLeft'&&cur>0)show(cur-1)});
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>show([...tabs.children].findIndex(b=>b.getAttribute('aria-selected')==='true')));
+})();
+</script>
+</html>

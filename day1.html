@@ -1,0 +1,281 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DOE Day 1 數據實驗室</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --ground:#f3f5fa; --panel:#ffffff; --ink:#0d1a3d; --ink2:#4a5677; --line:#d5dbea;
+  --navy:#0b2a6f; --blue:#2f6fd6; --blueSoft:#dce7fb; --red:#c8102e; --redSoft:#fbe0e4;
+  --ok:#1a8a55; --warn:#c77700; --grid:#e6eaf3;
+  --sans:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark; --ground:#0b1224; --panel:#131d36; --ink:#e8edf8; --ink2:#a4b0cc; --line:#2a3757;
+  --navy:#9dbbff; --blue:#6c9cff; --blueSoft:#1d2f57; --red:#ff5a6e; --redSoft:#3a1a24; --ok:#45c586; --warn:#f0a93a; --grid:#1c2744;}}
+:root[data-theme="dark"]{
+  color-scheme:dark; --ground:#0b1224; --panel:#131d36; --ink:#e8edf8; --ink2:#a4b0cc; --line:#2a3757;
+  --navy:#9dbbff; --blue:#6c9cff; --blueSoft:#1d2f57; --red:#ff5a6e; --redSoft:#3a1a24; --ok:#45c586; --warn:#f0a93a; --grid:#1c2744;}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:20px 40px}
+.wrap{max-width:1180px;margin:0 auto}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:18px}
+.brand small{display:block;font-size:13px;letter-spacing:.14em;color:var(--red);font-weight:700}
+h1{font-size:clamp(24px,3.4vw,38px);font-weight:900;margin:0;line-height:1.15;text-wrap:balance}
+h1 span{color:var(--blue)}
+.lede{color:var(--ink2);margin:0;max-width:52ch;font-size:15px}
+nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;border-bottom:2px solid var(--line)}
+nav button{flex:0 0 auto;font:inherit;font-size:15px;font-weight:700;color:var(--ink2);background:none;border:0;border-bottom:4px solid transparent;padding:8px 12px;cursor:pointer;margin-bottom:-8px}
+nav button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--red)}
+nav button:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.stage{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,1fr);gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+@media (max-width:820px){.stage{grid-template-columns:1fr}}
+.viz{min-width:0}
+.viz svg{width:100%;height:auto;display:block}
+.side{display:flex;flex-direction:column;gap:14px}
+.side h2{font-size:22px;margin:0;line-height:1.3;text-wrap:balance}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--red);background:var(--redSoft);border-radius:4px;padding:2px 8px}
+.say{margin:0;color:var(--ink2);font-size:15px}
+.ctl{display:flex;flex-direction:column;gap:4px}
+.ctl label{display:flex;justify-content:space-between;font-weight:700;font-size:14px}
+.ctl output{font-family:var(--mono);color:var(--blue)}
+input[type=range]{width:100%;accent-color:var(--blue)}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{font:inherit;font-weight:700;font-size:15px;border-radius:8px;padding:9px 14px;cursor:pointer;border:2px solid var(--navy);background:var(--navy);color:var(--panel)}
+.btn.ghost{background:transparent;color:var(--navy)}
+.btn.alert{background:var(--red);border-color:var(--red);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.stat{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.stat b{display:block;font-family:var(--mono);font-size:22px;color:var(--navy);font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--ink2)}
+.stat.bad b{color:var(--red)} .stat.good b{color:var(--ok)}
+.key{margin:0;padding:10px 12px;border-left:4px solid var(--red);background:var(--redSoft);border-radius:0 8px 8px 0;font-weight:700;font-size:15px}
+.toggles{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.toggles label{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:700;font-size:14px}
+.toggles input{width:18px;height:18px;accent-color:var(--red)}
+svg text{font-family:var(--sans)}
+.foot{margin-top:14px;color:var(--ink2);font-size:13px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.embed header,.embed nav,.embed .foot{display:none}
+.embed body,body.embed{padding-block:8px}
+.embed .stage{border:0;border-radius:0;padding:12px}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="brand"><small>DOE 實驗設計實戰營 · DAY 1</small><h1>看懂數據：<span>準不準、穩不穩</span></h1></div>
+  <p class="lede">上課投影用的互動教具。每一頁對應講義的一個單元：先讓學員猜，再按按鈕、拉滑桿，讓數據自己說話。</p>
+</header>
+<nav role="tablist" id="tabs"></nav>
+<section class="stage" id="stage"></section>
+<p class="foot">資料為課堂模擬值。建議投影時用瀏覽器全螢幕（F11）。</p>
+</div>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+/* embed-mode: inside PowerPoint Web Viewer or any iframe, hide header/tabs */
+try{if(window.self!==window.top||/embed/.test(location.hash)){document.documentElement.classList.add('embed');document.body.classList.add('embed')}}catch(e){document.body.classList.add('embed')}
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const rn=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
+const mean=a=>a.reduce((s,x)=>s+x,0)/(a.length||1);
+const sd=a=>{if(a.length<2)return 0;const m=mean(a);return Math.sqrt(a.reduce((s,x)=>s+(x-m)**2,0)/(a.length-1))};
+const f=(x,d=2)=>Number.isFinite(x)?x.toFixed(d):'—';
+const Phi=z=>{const t=1/(1+0.2316419*Math.abs(z)),d=0.3989423*Math.exp(-z*z/2);let p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return z>0?1-p:p};
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attr={},parent){const e=document.createElementNS(NS,tag);for(const k in attr)e.setAttribute(k,attr[k]);if(parent)parent.appendChild(e);return e}
+function txt(p,x,y,s,o={}){const t=el('text',Object.assign({x,y,fill:css('--ink2'),'font-size':14},o),p);t.textContent=s;return t}
+function svg(w,h){const s=el('svg',{viewBox:`0 0 ${w} ${h}`,role:'img'});return s}
+function axis(s,x0,y0,x1,y1,ticks,sx,lab){el('line',{x1:x0,y1:y0,x2:x1,y2:y0,stroke:css('--ink2'),'stroke-width':1.5},s);ticks.forEach(t=>{const x=sx(t);el('line',{x1:x,y1:y0,x2:x,y2:y0+6,stroke:css('--ink2')},s);txt(s,x,y0+22,String(t),{'text-anchor':'middle','font-family':css('--mono')})});if(lab)txt(s,(x0+x1)/2,y0+44,lab,{'text-anchor':'middle','font-weight':700,fill:css('--ink')})}
+
+const LESSONS=[
+/* 1 紙飛機：變異 */
+{id:'plane',tab:'暖身｜紙飛機',tag:'暖身 · 變異',title:'同一架飛機，為什麼每次都飛不一樣遠？',
+ say:'按「射一次」模擬同一個人、同一架紙飛機連續射出。先請全班猜：10 次會差多少？',
+ key:'變異一定存在。所以要比「平均」，不能只比「最遠那一次」。',
+ init(v,side){
+  let d=[];const W=720,H=380,xm=200,xM=800,sx=x=>60+(x-xm)/(xM-xm)*(W-100);
+  const s=svg(W,H);v.appendChild(s);
+  const ctl=side.querySelector('.ctlbox');ctl.innerHTML=`<div class="btns"><button class="btn" id="p1">射一次</button><button class="btn ghost" id="p10">連射 10 次</button><button class="btn ghost" id="p0">重來</button></div><div class="stats"><div class="stat"><b id="pn">0</b><span>已射次數</span></div><div class="stat"><b id="pm">—</b><span>平均距離 cm</span></div><div class="stat"><b id="pmax">—</b><span>最遠 cm</span></div><div class="stat"><b id="pr">—</b><span>全距（最遠−最近）</span></div></div>`;
+  function draw(){s.innerHTML='';
+   for(let x=200;x<=800;x+=100){el('line',{x1:sx(x),y1:40,x2:sx(x),y2:300,stroke:css('--grid')},s)}
+   el('rect',{x:20,y:260,width:30,height:40,rx:4,fill:css('--navy')},s);txt(s,35,252,'起點',{'text-anchor':'middle','font-weight':700});
+   axis(s,60,300,W-40,300,[200,300,400,500,600,700,800],sx,'飛行距離（cm）');
+   d.forEach((x,i)=>{const last=i===d.length-1;const cx=sx(x),cy=280-((i*37)%200);
+     el('path',{d:`M50 270 Q ${(50+cx)/2} ${cy-120} ${cx} ${cy}`,fill:'none',stroke:last?css('--red'):css('--blue'),'stroke-width':last?2.5:1,opacity:last?1:.35},s);
+     const g=el('g',{transform:`translate(${cx},${cy}) rotate(12)`},s);el('path',{d:'M-14 0 L14 0 L-6 -9 Z M-14 0 L-6 7 L14 0',fill:last?css('--red'):css('--panel'),stroke:last?css('--red'):css('--navy'),'stroke-width':1.5},g);
+     el('circle',{cx,cy:300,r:5,fill:css('--blue'),opacity:.8},s)});
+   if(d.length){const m=mean(d);el('line',{x1:sx(m),y1:30,x2:sx(m),y2:300,stroke:css('--red'),'stroke-width':2.5,'stroke-dasharray':'6 5'},s);txt(s,sx(m),24,`平均 ${f(m,0)}`,{'text-anchor':'middle',fill:css('--red'),'font-weight':700})}
+   $('#pn').textContent=d.length;$('#pm').textContent=d.length?f(mean(d),0):'—';$('#pmax').textContent=d.length?f(Math.max(...d),0):'—';$('#pr').textContent=d.length>1?f(Math.max(...d)-Math.min(...d),0):'—';}
+  const shoot=()=>d.push(Math.max(220,Math.min(790,520+rn()*85)));
+  $('#p1').onclick=()=>{shoot();draw()};$('#p10').onclick=()=>{for(let i=0;i<10;i++)shoot();draw()};$('#p0').onclick=()=>{d=[];draw()};
+  for(let i=0;i<5;i++)shoot();draw();}},
+/* 2 Y=f(X) */
+{id:'yfx',tab:'一｜Y = f(X)',tag:'單元一 · 輸入與輸出',title:'轉動旋鈕 X，看成品 Y 怎麼變',
+ say:'射出成型：料溫、射出壓力、保壓時間三顆旋鈕。目標是產品尺寸 50.00 ± 0.10 mm。請學員分組搶答：哪一顆旋鈕影響最大？',
+ key:'改善的本質，就是找出「哪幾顆旋鈕真正影響結果」。這正是 DOE 要回答的。',
+ init(v,side){
+  const W=720,H=380,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`
+  <div class="ctl"><label for="xt">料溫 X₁ <output id="ot"></output></label><input type="range" id="xt" min="200" max="260" value="230"></div>
+  <div class="ctl"><label for="xp">射出壓力 X₂ <output id="op"></output></label><input type="range" id="xp" min="60" max="120" value="80"></div>
+  <div class="ctl"><label for="xh">保壓時間 X₃ <output id="oh"></output></label><input type="range" id="xh" min="2" max="8" step="0.5" value="5"></div>
+  <div class="btns"><button class="btn" id="ygo">生產 20 件</button></div>
+  <div class="stats"><div class="stat"><b id="ym">—</b><span>平均尺寸 mm</span></div><div class="stat" id="ybox"><b id="yo">—</b><span>超規件數 / 20</span></div></div>`;
+  let pts=[];
+  const model=(t,p,h)=>50+0.0045*(t-238)+0.0028*(p-88)+0.004*(h-5)+0.00012*(t-238)*(p-88)*0.4;
+  function prod(){const t=+$('#xt').value,p=+$('#xp').value,h=+$('#xh').value;const m=model(t,p,h);pts=Array.from({length:20},()=>m+rn()*0.03);draw()}
+  function draw(){const t=+$('#xt').value,p=+$('#xp').value,h=+$('#xh').value;$('#ot').textContent=t+' °C';$('#op').textContent=p+' MPa';$('#oh').textContent=h+' s';
+   s.innerHTML='';
+   // machine
+   el('rect',{x:20,y:60,width:250,height:260,rx:14,fill:css('--navy')},s);txt(s,145,92,'射出成型機',{'text-anchor':'middle',fill:'#fff','font-weight':700,'font-size':18});
+   [[t,200,260,'料溫'],[p,60,120,'壓力'],[h,2,8,'保壓']].forEach(([val,a,b,n],i)=>{const cx=145,cy=140+i*62,ang=-135+270*(val-a)/(b-a);
+     el('circle',{cx:cx-60,cy,r:22,fill:css('--panel'),stroke:'#fff','stroke-width':3},s);
+     const r=ang*Math.PI/180;el('line',{x1:cx-60,y1:cy,x2:cx-60+17*Math.sin(r),y2:cy-17*Math.cos(r),stroke:css('--red'),'stroke-width':4,'stroke-linecap':'round'},s);
+     txt(s,cx-25,cy+6,`X${i+1} ${n}`,{fill:'#fff','font-weight':700,'font-size':16})});
+   // arrow
+   el('path',{d:'M285 190 L345 190 M335 178 L350 190 L335 202',stroke:css('--red'),'stroke-width':5,fill:'none','stroke-linecap':'round'},s);
+   // gauge chart
+   const x0=380,x1=W-20,lo=49.8,hi=50.2,sx=v=>x0+(v-lo)/(hi-lo)*(x1-x0);
+   el('rect',{x:sx(49.9),y:70,width:sx(50.1)-sx(49.9),height:230,fill:css('--blueSoft')},s);
+   [49.9,50.1].forEach(v=>{el('line',{x1:sx(v),y1:60,x2:sx(v),y2:300,stroke:css('--red'),'stroke-width':2,'stroke-dasharray':'5 4'},s)});
+   txt(s,sx(49.9),54,'LSL',{'text-anchor':'middle',fill:css('--red'),'font-weight':700});txt(s,sx(50.1),54,'USL',{'text-anchor':'middle',fill:css('--red'),'font-weight':700});
+   el('line',{x1:sx(50),y1:70,x2:sx(50),y2:300,stroke:css('--ok'),'stroke-width':2},s);txt(s,sx(50),318+0,'',{});
+   axis(s,x0,300,x1,300,[49.8,49.9,50,50.1,50.2],sx,'產品尺寸 Y（mm）');
+   txt(s,(x0+x1)/2,30,'成品 Y',{'text-anchor':'middle','font-weight':900,'font-size':18,fill:css('--ink')});
+   pts.forEach((y,i)=>{const bad=y<49.9||y>50.1;el('circle',{cx:sx(Math.max(lo,Math.min(hi,y))),cy:90+i*10.5,r:6,fill:bad?css('--red'):css('--blue')},s)});
+   if(pts.length){const m=mean(pts),o=pts.filter(y=>y<49.9||y>50.1).length;$('#ym').textContent=f(m,3);$('#yo').textContent=o;$('#ybox').className='stat '+(o?'bad':'good')}}
+  ['#xt','#xp','#xh'].forEach(k=>$(k).oninput=prod);$('#ygo').onclick=prod;prod();}},
+/* 3 抽樣 */
+{id:'sample',tab:'二｜母體與樣本',tag:'單元二 · 抽樣',title:'一匙湯，能代表整鍋湯嗎？',
+ say:'左邊 400 顆點是「整批產品（母體）」，紅框是被抽到的「樣本」。拉動樣本數 n，多抽幾次，看樣本平均離真正的平均有多遠。',
+ key:'樣本越大，樣本平均越接近母體平均。樣本太少，容易被「運氣」騙。',
+ init(v,side){
+  const W=720,H=420,s=svg(W,H);v.appendChild(s);
+  const pop=Array.from({length:400},()=>3+rn()*0.4);const mu=mean(pop);let hist=[],pick=[];
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="sn">樣本數 n <output id="son"></output></label><input type="range" id="sn" min="3" max="60" value="5"></div>
+  <div class="btns"><button class="btn" id="sgo">抽一次</button><button class="btn ghost" id="s20">連抽 20 次</button><button class="btn ghost" id="s0">清除紀錄</button></div>
+  <div class="stats"><div class="stat"><b>${f(mu,3)}</b><span>母體平均（真值）秒</span></div><div class="stat"><b id="sm">—</b><span>這次樣本平均</span></div><div class="stat"><b id="sk">0</b><span>已抽次數</span></div><div class="stat"><b id="ss">—</b><span>樣本平均的波動（標準差）</span></div></div>`;
+  function draw(){s.innerHTML='';const n=+$('#sn').value;$('#son').textContent=n;
+   txt(s,10,22,'母體：400 架紙直升機的滯空秒數',{'font-weight':700,fill:css('--ink')});
+   pop.forEach((x,i)=>{const cx=18+(i%20)*16,cy=44+Math.floor(i/20)*16;const t=(x-2.2)/1.6;el('circle',{cx,cy,r:6,fill:css('--blue'),opacity:.25+.6*Math.max(0,Math.min(1,t))},s)});
+   pick.forEach(i=>{el('rect',{x:18+(i%20)*16-8,y:44+Math.floor(i/20)*16-8,width:16,height:16,fill:'none',stroke:css('--red'),'stroke-width':2.5},s)});
+   const x0=380,x1=W-20,sx=v=>x0+(v-2.7)/0.6*(x1-x0);
+   txt(s,x0,22,'每次抽樣的「樣本平均」',{'font-weight':700,fill:css('--ink')});
+   el('line',{x1:sx(mu),y1:36,x2:sx(mu),y2:360,stroke:css('--ok'),'stroke-width':2.5},s);txt(s,sx(mu),376+0,'',{});
+   txt(s,sx(mu)+4,50,'真值',{fill:css('--ok'),'font-weight':700});
+   const bins={};hist.forEach(h=>{const b=Math.round((h.m-2.7)/0.02);bins[b]=(bins[b]||0)+1;const k=bins[b];el('circle',{cx:sx(2.7+b*0.02),cy:352-k*11,r:5,fill:h.n<=10?css('--red'):css('--navy'),opacity:.85},s)});
+   axis(s,x0,360,x1,360,[2.7,2.85,3,3.15,3.3],sx,'樣本平均（秒）');
+   $('#sk').textContent=hist.length;const ms=hist.map(h=>h.m);$('#ss').textContent=ms.length>1?f(sd(ms),3):'—';}
+  function one(){const n=+$('#sn').value;const idx=[...Array(400).keys()].sort(()=>Math.random()-.5).slice(0,n);pick=idx;const m=mean(idx.map(i=>pop[i]));hist.push({m,n});$('#sm').textContent=f(m,3)}
+  $('#sgo').onclick=()=>{one();draw()};$('#s20').onclick=()=>{for(let i=0;i<20;i++)one();draw()};$('#s0').onclick=()=>{hist=[];pick=[];$('#sm').textContent='—';draw()};$('#sn').oninput=draw;
+  for(let i=0;i<12;i++)one();draw();}},
+/* 4 5M1E */
+{id:'m5e',tab:'三｜5M1E',tag:'單元三 · 變異來源',title:'關掉一個變異來源，分布會變窄多少？',
+ say:'勾選代表「這個來源還在搖晃」。取消勾選＝已經把它管好了（標準化、保養、校正…）。看直方圖和超規比例怎麼變。',
+ key:'變異無法消除，只能一個一個來源去減少、去管理。',
+ init(v,side){
+  const W=720,H=380,s=svg(W,H);v.appendChild(s);
+  const src=[['man','人 Man',0.018],['mach','機 Machine',0.025],['mat','料 Material',0.02],['meth','法 Method',0.012],['meas','測 Measurement',0.015],['env','環 Environment',0.01]];
+  side.querySelector('.ctlbox').innerHTML=`<div class="toggles">${src.map(([k,n])=>`<label><input type="checkbox" id="m_${k}" checked>${n}</label>`).join('')}</div>
+  <div class="stats"><div class="stat"><b id="msd">—</b><span>總標準差 σ（mm）</span></div><div class="stat" id="mob"><b id="mo">—</b><span>超出 ±0.10 mm 比例</span></div></div>`;
+  function draw(){s.innerHTML='';const on=src.filter(([k])=>$('#m_'+k).checked);const sg=Math.sqrt(0.004**2+on.reduce((a,[,,v])=>a+v*v,0));
+   const x0=40,x1=W-20,sx=v=>x0+(v+0.16)/0.32*(x1-x0),yb=300;
+   el('rect',{x:sx(-0.1),y:30,width:sx(0.1)-sx(-0.1),height:yb-30,fill:css('--blueSoft')},s);
+   [-0.1,0.1].forEach((v,i)=>{el('line',{x1:sx(v),y1:24,x2:sx(v),y2:yb,stroke:css('--red'),'stroke-width':2,'stroke-dasharray':'5 4'},s);txt(s,sx(v),18,i?'USL':'LSL',{'text-anchor':'middle',fill:css('--red'),'font-weight':700})});
+   const ref=1/(0.02*Math.sqrt(2*Math.PI));let dstr='';
+   for(let i=0;i<=200;i++){const x=-0.16+0.32*i/200,y=Math.exp(-x*x/(2*sg*sg))/(sg*Math.sqrt(2*Math.PI));const yy=yb-Math.min(250,y/ref*230);dstr+=(i?'L':'M')+sx(x)+' '+yy}
+   el('path',{d:dstr+`L${sx(0.16)} ${yb} L${sx(-0.16)} ${yb}Z`,fill:css('--blue'),opacity:.35},s);el('path',{d:dstr,fill:'none',stroke:css('--navy'),'stroke-width':3},s);
+   axis(s,x0,yb,x1,yb,[-0.15,-0.1,-0.05,0,0.05,0.1,0.15],sx,'尺寸偏差（mm）');
+   const out=2*Phi(-0.1/sg);$('#msd').textContent=f(sg,3);$('#mo').textContent=f(out*100,1)+'%';$('#mob').className='stat '+(out>0.01?'bad':'good');}
+  src.forEach(([k])=>$('#m_'+k).onchange=draw);draw();}},
+/* 5 撲克牌推移圖 */
+{id:'cards',tab:'三｜撲克牌推移圖',tag:'單元三 · 共同原因 vs 特殊原因',title:'你能從推移圖看出，哪一輪製程出事了嗎？',
+ say:'每輪抽 5 張牌，點數平均就是這一輪的「尺寸」。講師可以偷偷按「換成大牌」，讓學員從圖上找出異常從哪一輪開始。',
+ key:'共同原因：天天都有的小抖動。特殊原因：突然出事、找得到兇手，要抓出來排除。',
+ init(v,side){
+  const W=720,H=380,s=svg(W,H);v.appendChild(s);let rounds=[],spec=false,specAt=null;
+  side.querySelector('.ctlbox').innerHTML=`<div class="btns"><button class="btn" id="c1">抽下一輪</button><button class="btn ghost" id="c5">連抽 5 輪</button></div>
+  <div class="btns"><button class="btn alert" id="cs">偷偷換成大牌</button><button class="btn ghost" id="c0">重來</button></div>
+  <div class="stats"><div class="stat"><b id="cn">0</b><span>已抽輪數</span></div><div class="stat"><b id="cl">—</b><span>最新一輪平均點數</span></div></div>
+  <p class="say" id="chint">管制界限＝前 10 輪平均 ± 3σ。落在界限外的點會變紅。</p>`;
+  const draw5=()=>{const pool=spec?[8,9,10,11,12,13]:[1,2,3,4,5,6,7,8,9,10,11,12,13];return mean(Array.from({length:5},()=>pool[Math.floor(Math.random()*pool.length)]))};
+  function draw(){s.innerHTML='';const x0=50,x1=W-20,y0=40,y1=320,N=Math.max(25,rounds.length),sx=i=>x0+i/(N-1)*(x1-x0),sy=v=>y1-(v-1)/(13-1)*(y1-y0);
+   for(let v=1;v<=13;v+=3){el('line',{x1:x0,y1:sy(v),x2:x1,y2:sy(v),stroke:css('--grid')},s);txt(s,x0-8,sy(v)+5,String(v),{'text-anchor':'end','font-family':css('--mono')})}
+   let cl=null,ucl=null,lcl=null;if(rounds.length>=10){const base=rounds.slice(0,10);cl=mean(base);const sgm=sd(base);ucl=cl+3*sgm;lcl=cl-3*sgm;
+     [[cl,css('--ok'),'CL'],[ucl,css('--red'),'UCL'],[lcl,css('--red'),'LCL']].forEach(([v,c,n])=>{el('line',{x1:x0,y1:sy(v),x2:x1,y2:sy(v),stroke:c,'stroke-width':2,'stroke-dasharray':n==='CL'?'':'6 5'},s);txt(s,x1-2,sy(v)-6,n,{'text-anchor':'end',fill:c,'font-weight':700})})}
+   if(specAt!==null&&specAt<rounds.length){el('rect',{x:sx(specAt)-6,y:y0,width:x1-sx(specAt)+6,height:y1-y0,fill:css('--redSoft'),opacity:.6},s)}
+   if(rounds.length>1)el('polyline',{points:rounds.map((v,i)=>sx(i)+','+sy(v)).join(' '),fill:'none',stroke:css('--navy'),'stroke-width':2.5},s);
+   rounds.forEach((v,i)=>{const bad=ucl!==null&&(v>ucl||v<lcl);el('circle',{cx:sx(i),cy:sy(v),r:bad?8:5.5,fill:bad?css('--red'):css('--navy')},s)});
+   txt(s,x0,24,'每輪平均點數（產品「尺寸」）',{'font-weight':700,fill:css('--ink')});txt(s,(x0+x1)/2,y1+40,'輪次',{'text-anchor':'middle','font-weight':700,fill:css('--ink')});
+   $('#cn').textContent=rounds.length;$('#cl').textContent=rounds.length?f(rounds.at(-1),1):'—';}
+  const add=()=>rounds.push(draw5());
+  $('#c1').onclick=()=>{add();draw()};$('#c5').onclick=()=>{for(let i=0;i<5;i++)add();draw()};
+  $('#cs').onclick=()=>{if(!spec){spec=true;specAt=rounds.length;$('#cs').textContent='已換牌（學員看得出來嗎？）'}};
+  $('#c0').onclick=()=>{rounds=[];spec=false;specAt=null;$('#cs').textContent='偷偷換成大牌';draw()};
+  for(let i=0;i<12;i++)add();draw();}},
+/* 6 射擊靶 */
+{id:'target',tab:'四｜準不準 × 穩不穩',tag:'單元四 · 平均與標準差',title:'拉兩個滑桿，把製程打到靶心',
+ say:'「偏移」控制平均離目標多遠（準不準），「散布」控制標準差（穩不穩）。請學員說出現在是四象限的哪一種，該先調哪一個。',
+ key:'不準又不穩：先求穩，再求準。DOE 要找的，是平均最好而且最穩的參數。',
+ init(v,side){
+  const W=720,H=420,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="tb">偏移（準不準） <output id="otb"></output></label><input type="range" id="tb" min="0" max="100" value="55"></div>
+  <div class="ctl"><label for="ts">散布（穩不穩） <output id="ots"></output></label><input type="range" id="ts" min="5" max="100" value="60"></div>
+  <div class="btns"><button class="btn" id="tgo">再射 15 發</button></div>
+  <div class="stats"><div class="stat"><b id="tq">—</b><span>目前屬於</span></div><div class="stat"><b id="tsd">—</b><span>彈著標準差</span></div></div>`;
+  let shots=[];
+  function fire(){const b=+$('#tb').value,sp=+$('#ts').value;shots=Array.from({length:15},()=>[b*1.2+rn()*sp*0.9,-b*0.8+rn()*sp*0.9]);draw()}
+  function draw(){s.innerHTML='';const cx=230,cy=210,b=+$('#tb').value,sp=+$('#ts').value;$('#otb').textContent=b;$('#ots').textContent=sp;
+   [[180,css('--panel')],[140,css('--navy')],[95,css('--panel')],[50,css('--navy')],[20,css('--red')]].forEach(([r,c])=>el('circle',{cx,cy,r,fill:c,stroke:css('--navy'),'stroke-width':2},s));
+   shots.forEach(([x,y])=>el('circle',{cx:cx+x,cy:cy+y,r:7,fill:'#ffc629',stroke:'#1a1a1a','stroke-width':1.5},s));
+   const acc=b<25,st=sp<35;const q=acc&&st?'準而且穩':(!acc&&st?'穩但不準':(acc&&!st?'準但不穩':'不準又不穩'));
+   const qs=[['準而且穩',true,true],['穩但不準',false,true],['準但不穩',true,false],['不準又不穩',false,false]];
+   qs.forEach(([n,a,t],i)=>{const x=470+(i%2)*122,y=90+Math.floor(i/2)*120,cur=n===q;el('rect',{x,y,width:112,height:104,rx:10,fill:cur?css('--red'):css('--blueSoft'),stroke:cur?css('--red'):css('--line')},s);
+     txt(s,x+56,y+44,n,{'text-anchor':'middle','font-weight':900,'font-size':16,fill:cur?'#fff':css('--navy')});txt(s,x+56,y+72,(a?'平均對':'平均偏')+'・'+(t?'σ小':'σ大'),{'text-anchor':'middle','font-size':13,fill:cur?'#fff':css('--ink2')})});
+   txt(s,592,60,'四象限',{'text-anchor':'middle','font-weight':700,fill:css('--ink')});
+   $('#tq').textContent=q;$('#tsd').textContent=shots.length?f(sd(shots.map(p=>Math.hypot(p[0]-mean(shots.map(q=>q[0])),p[1]-mean(shots.map(q=>q[1]))))),1):'—';}
+  ['#tb','#ts'].forEach(k=>$(k).oninput=fire);$('#tgo').onclick=fire;fire();}},
+/* 7 常態與規格 */
+{id:'normal',tab:'四｜常態分布與規格',tag:'單元四 · 案例：熱處理',title:'平均都是 HRC 58，為什麼一條線好、一條線差？',
+ say:'規格 HRC 55～61。先按「A 線」「B 線」比較，再自己拉平均和 σ，看 68–95–99.7 區間和超規比例怎麼跟著變。',
+ key:'報告數據一定要同時報「平均」與「標準差」。只看平均，會得到錯誤結論。',
+ init(v,side){
+  const W=720,H=400,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="btns"><button class="btn" id="na">A 線 σ=0.5</button><button class="btn" id="nb">B 線 σ=2.0</button></div>
+  <div class="ctl"><label for="nm">平均 μ <output id="onm"></output></label><input type="range" id="nm" min="54" max="62" step="0.1" value="58"></div>
+  <div class="ctl"><label for="ns">標準差 σ <output id="ons"></output></label><input type="range" id="ns" min="0.3" max="3" step="0.1" value="2"></div>
+  <div class="stats"><div class="stat" id="nob"><b id="no">—</b><span>超出規格比例</span></div><div class="stat"><b id="nppm">—</b><span>每 1 萬件約不良</span></div></div>`;
+  function draw(){s.innerHTML='';const m=+$('#nm').value,sg=+$('#ns').value;$('#onm').textContent=f(m,1);$('#ons').textContent=f(sg,1);
+   const x0=40,x1=W-20,yb=320,lo=48,hi=68,sx=v=>x0+(v-lo)/(hi-lo)*(x1-x0);
+   const pdf=x=>Math.exp(-((x-m)**2)/(2*sg*sg))/(sg*Math.sqrt(2*Math.PI)),top=pdf(m),sy=y=>yb-y/Math.max(top,0.25)*230;
+   [[3,.12],[2,.22],[1,.35]].forEach(([k,o])=>{let d='';for(let i=0;i<=120;i++){const x=m-k*sg+2*k*sg*i/120;d+=(i?'L':'M')+sx(x)+' '+sy(pdf(x))}el('path',{d:d+`L${sx(m+k*sg)} ${yb} L${sx(m-k*sg)} ${yb}Z`,fill:css('--blue'),opacity:o},s)});
+   const tail=(a,b)=>{let d='';for(let i=0;i<=80;i++){const x=a+(b-a)*i/80;d+=(i?'L':'M')+sx(x)+' '+sy(pdf(x))}el('path',{d:d+`L${sx(b)} ${yb} L${sx(a)} ${yb}Z`,fill:css('--red'),opacity:.75},s)};
+   tail(lo,55);tail(61,hi);
+   let d='';for(let i=0;i<=300;i++){const x=lo+(hi-lo)*i/300;d+=(i?'L':'M')+sx(x)+' '+sy(pdf(x))}el('path',{d,fill:'none',stroke:css('--navy'),'stroke-width':3},s);
+   [[55,'LSL 55'],[61,'USL 61']].forEach(([v,n])=>{el('line',{x1:sx(v),y1:40,x2:sx(v),y2:yb,stroke:css('--red'),'stroke-width':2,'stroke-dasharray':'6 5'},s);txt(s,sx(v),32,n,{'text-anchor':'middle',fill:css('--red'),'font-weight':700})});
+   [[1,'68%'],[2,'95%'],[3,'99.7%']].forEach(([k,n],i)=>{const y=yb-250+i*0;const yy=62+i*22;if(sx(m+k*sg)<x1&&sx(m-k*sg)>x0){el('line',{x1:sx(m-k*sg),y1:yy,x2:sx(m+k*sg),y2:yy,stroke:css('--navy'),'stroke-width':1.5,'marker-start':'','opacity':.7},s);txt(s,sx(m+k*sg)+6,yy+5,`±${k}σ ≈ ${n}`,{fill:css('--navy'),'font-size':13,'font-weight':700})}});
+   axis(s,x0,yb,x1,yb,[48,50,52,54,56,58,60,62,64,66,68],sx,'硬度 HRC');
+   const out=Phi((55-m)/sg)+1-Phi((61-m)/sg);$('#no').textContent=f(out*100,out<0.01?2:1)+'%';$('#nppm').textContent=f(out*10000,0)+' 件';$('#nob').className='stat '+(out>0.0027?'bad':'good');}
+  $('#na').onclick=()=>{$('#nm').value=58;$('#ns').value=0.5;draw()};$('#nb').onclick=()=>{$('#nm').value=58;$('#ns').value=2;draw()};
+  ['#nm','#ns'].forEach(k=>$(k).oninput=draw);draw();}}
+];
+
+const tabs=$('#tabs'),stage=$('#stage');
+function show(i){
+  [...tabs.children].forEach((b,k)=>b.setAttribute('aria-selected',k===i));
+  const L=LESSONS[i];
+  stage.innerHTML=`<div class="viz" id="viz"></div><aside class="side"><span class="tag">${L.tag}</span><h2>${L.title}</h2><p class="say">${L.say}</p><div class="ctlbox" style="display:flex;flex-direction:column;gap:12px"></div><p class="key">${L.key}</p></aside>`;
+  L.init($('#viz'),stage.querySelector('.side'));
+  try{localStorage.setItem('doe_d1_tab',L.id)}catch(e){}
+  if(history.replaceState)history.replaceState(null,'','#'+L.id);
+}
+LESSONS.forEach((L,i)=>{const b=document.createElement('button');b.role='tab';b.textContent=L.tab;b.onclick=()=>show(i);tabs.appendChild(b)});
+let start=0;const h=location.hash.slice(1);let saved=null;try{saved=localStorage.getItem('doe_d1_tab')}catch(e){}
+const pickId=h||saved;const k=LESSONS.findIndex(L=>L.id===pickId);if(k>=0)start=k;
+show(start);
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;const cur=[...tabs.children].findIndex(b=>b.getAttribute('aria-selected')==='true');if(e.key==='ArrowRight'&&cur<LESSONS.length-1)show(cur+1);if(e.key==='ArrowLeft'&&cur>0)show(cur-1)});
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>show([...tabs.children].findIndex(b=>b.getAttribute('aria-selected')==='true')));
+})();
+</script>
+</html>

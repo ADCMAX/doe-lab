@@ -1,0 +1,265 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DOE Day 2 統計判斷實驗室</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --ground:#f3f5fa; --panel:#ffffff; --ink:#0d1a3d; --ink2:#4a5677; --line:#d5dbea;
+  --navy:#0b2a6f; --blue:#2f6fd6; --blueSoft:#dce7fb; --red:#c8102e; --redSoft:#fbe0e4;
+  --ok:#1a8a55; --warn:#c77700; --grid:#e6eaf3;
+  --sans:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark; --ground:#0b1224; --panel:#131d36; --ink:#e8edf8; --ink2:#a4b0cc; --line:#2a3757;
+  --navy:#9dbbff; --blue:#6c9cff; --blueSoft:#1d2f57; --red:#ff5a6e; --redSoft:#3a1a24; --ok:#45c586; --warn:#f0a93a; --grid:#1c2744;}}
+:root[data-theme="dark"]{
+  color-scheme:dark; --ground:#0b1224; --panel:#131d36; --ink:#e8edf8; --ink2:#a4b0cc; --line:#2a3757;
+  --navy:#9dbbff; --blue:#6c9cff; --blueSoft:#1d2f57; --red:#ff5a6e; --redSoft:#3a1a24; --ok:#45c586; --warn:#f0a93a; --grid:#1c2744;}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:20px 40px}
+.wrap{max-width:1180px;margin:0 auto}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:18px}
+.brand small{display:block;font-size:13px;letter-spacing:.14em;color:var(--red);font-weight:700}
+h1{font-size:clamp(24px,3.4vw,38px);font-weight:900;margin:0;line-height:1.15;text-wrap:balance}
+h1 span{color:var(--blue)}
+.lede{color:var(--ink2);margin:0;max-width:52ch;font-size:15px}
+nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;border-bottom:2px solid var(--line)}
+nav button{flex:0 0 auto;font:inherit;font-size:15px;font-weight:700;color:var(--ink2);background:none;border:0;border-bottom:4px solid transparent;padding:8px 12px;cursor:pointer;margin-bottom:-8px}
+nav button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--red)}
+nav button:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.stage{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,1fr);gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+@media (max-width:820px){.stage{grid-template-columns:1fr}}
+.viz{min-width:0}
+.viz svg{width:100%;height:auto;display:block}
+.side{display:flex;flex-direction:column;gap:14px}
+.side h2{font-size:22px;margin:0;line-height:1.3;text-wrap:balance}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--red);background:var(--redSoft);border-radius:4px;padding:2px 8px}
+.say{margin:0;color:var(--ink2);font-size:15px}
+.ctl{display:flex;flex-direction:column;gap:4px}
+.ctl label{display:flex;justify-content:space-between;font-weight:700;font-size:14px}
+.ctl output{font-family:var(--mono);color:var(--blue)}
+input[type=range]{width:100%;accent-color:var(--blue)}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{font:inherit;font-weight:700;font-size:15px;border-radius:8px;padding:9px 14px;cursor:pointer;border:2px solid var(--navy);background:var(--navy);color:var(--panel)}
+.btn.ghost{background:transparent;color:var(--navy)}
+.btn.alert{background:var(--red);border-color:var(--red);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.stat{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.stat b{display:block;font-family:var(--mono);font-size:22px;color:var(--navy);font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--ink2)}
+.stat.bad b{color:var(--red)} .stat.good b{color:var(--ok)}
+.key{margin:0;padding:10px 12px;border-left:4px solid var(--red);background:var(--redSoft);border-radius:0 8px 8px 0;font-weight:700;font-size:15px}
+.toggles{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.toggles label{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:700;font-size:14px}
+.toggles input{width:18px;height:18px;accent-color:var(--red)}
+svg text{font-family:var(--sans)}
+.foot{margin-top:14px;color:var(--ink2);font-size:13px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.embed header,.embed nav,.embed .foot{display:none}
+.embed body,body.embed{padding-block:8px}
+.embed .stage{border:0;border-radius:0;padding:12px}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="brand"><small>DOE 實驗設計實戰營 · DAY 2</small><h1>判斷有沒有差：<span>從感覺到證據</span></h1></div>
+  <p class="lede">上課投影用的互動教具。每一頁對應講義的一個單元：先讓學員猜，再按按鈕、拉滑桿，讓數據自己說話。</p>
+</header>
+<nav role="tablist" id="tabs"></nav>
+<section class="stage" id="stage"></section>
+<p class="foot">資料為課堂模擬值。建議投影時用瀏覽器全螢幕（F11）。</p>
+</div>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+/* embed-mode: inside PowerPoint Web Viewer or any iframe, hide header/tabs */
+try{if(window.self!==window.top||/embed/.test(location.hash)){document.documentElement.classList.add('embed');document.body.classList.add('embed')}}catch(e){document.body.classList.add('embed')}
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const rn=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
+const mean=a=>a.reduce((s,x)=>s+x,0)/(a.length||1);
+const sd=a=>{if(a.length<2)return 0;const m=mean(a);return Math.sqrt(a.reduce((s,x)=>s+(x-m)**2,0)/(a.length-1))};
+const f=(x,d=2)=>Number.isFinite(x)?x.toFixed(d):'—';
+const Phi=z=>{const t=1/(1+0.2316419*Math.abs(z)),d=0.3989423*Math.exp(-z*z/2);let p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return z>0?1-p:p};
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attr={},parent){const e=document.createElementNS(NS,tag);for(const k in attr)e.setAttribute(k,attr[k]);if(parent)parent.appendChild(e);return e}
+function txt(p,x,y,s,o={}){const t=el('text',Object.assign({x,y,fill:css('--ink2'),'font-size':14},o),p);t.textContent=s;return t}
+function svg(w,h){const s=el('svg',{viewBox:`0 0 ${w} ${h}`,role:'img'});return s}
+function axis(s,x0,y0,x1,y1,ticks,sx,lab){el('line',{x1:x0,y1:y0,x2:x1,y2:y0,stroke:css('--ink2'),'stroke-width':1.5},s);ticks.forEach(t=>{const x=sx(t);el('line',{x1:x,y1:y0,x2:x,y2:y0+6,stroke:css('--ink2')},s);txt(s,x,y0+22,String(t),{'text-anchor':'middle','font-family':css('--mono')})});if(lab)txt(s,(x0+x1)/2,y0+44,lab,{'text-anchor':'middle','font-weight':700,fill:css('--ink')})}
+
+const lgam=x=>{const c=[76.18009172947146,-86.50532032941677,24.01409824083091,-1.231739572450155,0.1208650973866179e-2,-0.5395239384953e-5];let y=x,t=x+5.5;t-=(x+.5)*Math.log(t);let s=1.000000000190015;for(const k of c)s+=k/++y;return -t+Math.log(2.5066282746310005*s/x)};
+function betacf(a,b,x){let qab=a+b,qap=a+1,qam=a-1,c=1,d=1-qab*x/qap;if(Math.abs(d)<1e-30)d=1e-30;d=1/d;let h=d;for(let m=1;m<=200;m++){let m2=2*m,aa=m*(b-m)*x/((qam+m2)*(a+m2));d=1+aa*d;if(Math.abs(d)<1e-30)d=1e-30;c=1+aa/c;if(Math.abs(c)<1e-30)c=1e-30;d=1/d;h*=d*c;aa=-(a+m)*(qab+m)*x/((a+m2)*(qap+m2));d=1+aa*d;if(Math.abs(d)<1e-30)d=1e-30;c=1+aa/c;if(Math.abs(c)<1e-30)c=1e-30;d=1/d;const del=d*c;h*=del;if(Math.abs(del-1)<3e-7)break}return h}
+function ibeta(x,a,b){if(x<=0)return 0;if(x>=1)return 1;const bt=Math.exp(lgam(a+b)-lgam(a)-lgam(b)+a*Math.log(x)+b*Math.log(1-x));return x<(a+1)/(a+b+2)?bt*betacf(a,b,x)/a:1-bt*betacf(b,a,1-x)/b}
+const pT=(t,df)=>ibeta(df/(df+t*t),df/2,0.5); // two-sided
+const pF=(F,d1,d2)=>F<=0?1:ibeta(d2/(d2+d1*F),d2/2,d1/2);
+const tq=df=>{let lo=0,hi=20;for(let i=0;i<60;i++){const m=(lo+hi)/2;pT(m,df)>0.05?lo=m:hi=m}return (lo+hi)/2};
+const pfmt=p=>p<0.001?'< 0.001':f(p,3);
+function dots(s,arr,sx,y,c,r=6){const bins={};arr.forEach(v=>{const b=Math.round(sx(v)/(2*r));bins[b]=(bins[b]||0)+1;el('circle',{cx:b*2*r,cy:y-(bins[b]-1)*(2*r),r:r-1,fill:c,opacity:.85},s)})}
+const LESSONS=[
+{id:'machines',tab:'暖身｜兩台機器',tag:'暖身 · 樣本數',title:'A 機比 B 機好？多抽幾件再說',
+ say:'兩台 CNC 加工同一個零件，看粗糙度（越小越好）。其實兩台真實平均只差 0.03。先用 5 件投票，再抽到 50 件重新投票。',
+ key:'樣本越少，越容易被運氣騙。判斷「有沒有差」需要足夠的數據。',
+ init(v,side){const W=720,H=380,s=svg(W,H);v.appendChild(s);let A=[],B=[];
+  side.querySelector('.ctlbox').innerHTML=`<div class="btns"><button class="btn" id="m5">各抽 5 件</button><button class="btn ghost" id="m1">再各抽 5 件</button><button class="btn ghost" id="m0">重來</button></div><div class="stats"><div class="stat"><b id="mA">—</b><span>A 機平均 Ra</span></div><div class="stat"><b id="mB">—</b><span>B 機平均 Ra</span></div><div class="stat"><b id="mN">0</b><span>每台已抽件數</span></div><div class="stat"><b id="mW">—</b><span>看起來比較好的是</span></div></div>`;
+  const gen=m=>Math.max(0.5,m+rn()*0.08);
+  function draw(){s.innerHTML='';const x0=60,x1=W-30,sx=v=>x0+(v-0.6)/0.4*(x1-x0);
+   [['A 機',A,css('--blue'),150],['B 機',B,css('--red'),300]].forEach(([n,a,c,y])=>{txt(s,10,y-20,n,{'font-weight':900,'font-size':18,fill:c});el('line',{x1:x0,y1:y,x2:x1,y2:y,stroke:css('--grid')},s);
+     const bins={};a.forEach(v=>{const b=Math.round((sx(v)-x0)/12);bins[b]=(bins[b]||0)+1;el('circle',{cx:x0+b*12,cy:y-(bins[b]-1)*12-6,r:5.5,fill:c,opacity:.85},s)});
+     if(a.length){const m=mean(a);el('line',{x1:sx(m),y1:y-110,x2:sx(m),y2:y+8,stroke:c,'stroke-width':3},s);txt(s,sx(m)+5,y-96,'平均 '+f(m,3),{fill:c,'font-weight':700})}});
+   axis(s,x0,330,x1,330,[0.6,0.7,0.8,0.9,1.0],sx,'表面粗糙度 Ra（μm）越小越好');
+   $('#mN').textContent=A.length;if(A.length){$('#mA').textContent=f(mean(A),3);$('#mB').textContent=f(mean(B),3);$('#mW').textContent=mean(A)<mean(B)?'A 機':'B 機'}}
+  const add=k=>{for(let i=0;i<k;i++){A.push(gen(0.78));B.push(gen(0.81))}};
+  $('#m5').onclick=()=>{A=[];B=[];add(5);draw()};$('#m1').onclick=()=>{add(5);draw()};$('#m0').onclick=()=>{A=[];B=[];['#mA','#mB','#mW'].forEach(k=>$(k).textContent='—');draw()};add(5);draw();}},
+{id:'clt',tab:'一｜樣本數的力量',tag:'單元一 · 抽樣誤差',title:'每次抽 5 件 vs 每次抽 30 件，樣本平均有多穩？',
+ say:'從同一個製程各抽 200 次。藍色是每次抽 5 件的平均，紅色是每次抽 30 件的平均。哪一種比較集中在真值？',
+ key:'樣本越多，平均越穩。這就是 DOE 要「重複 Replication」的原因。',
+ init(v,side){const W=720,H=380,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="cn">小樣本 n <output id="ocn"></output></label><input type="range" id="cn" min="2" max="15" value="5"></div><div class="ctl"><label for="cN">大樣本 n <output id="ocN"></output></label><input type="range" id="cN" min="16" max="60" value="30"></div><div class="btns"><button class="btn" id="cgo">重新各抽 200 次</button></div><div class="stats"><div class="stat"><b id="csd1">—</b><span>小樣本平均的波動 σ</span></div><div class="stat"><b id="csd2">—</b><span>大樣本平均的波動 σ</span></div></div>`;
+  function draw(){s.innerHTML='';const n=+$('#cn').value,N=+$('#cN').value;$('#ocn').textContent=n;$('#ocN').textContent=N;
+   const mk=k=>Array.from({length:200},()=>mean(Array.from({length:k},()=>3+rn()*0.4)));const a=mk(n),b=mk(N);
+   const x0=40,x1=W-20,lo=2.5,hi=3.5,sx=v=>x0+(v-lo)/(hi-lo)*(x1-x0),yb=320;
+   const hist=(arr,c,o)=>{const bw=0.025,bins={};arr.forEach(v=>{const k=Math.floor((v-lo)/bw);bins[k]=(bins[k]||0)+1});for(const k in bins){el('rect',{x:sx(lo+k*bw),y:yb-bins[k]*4.2,width:sx(lo+bw)-sx(lo)-1,height:bins[k]*4.2,fill:c,opacity:o},s)}};
+   hist(a,css('--blue'),.55);hist(b,css('--red'),.6);
+   el('line',{x1:sx(3),y1:30,x2:sx(3),y2:yb,stroke:css('--ok'),'stroke-width':2.5},s);txt(s,sx(3)+5,40,'真值 3.00 秒',{fill:css('--ok'),'font-weight':700});
+   el('rect',{x:x0,y:20,width:14,height:14,fill:css('--blue'),opacity:.55},s);txt(s,x0+20,32,`每次抽 ${n} 件`,{fill:css('--ink')});
+   el('rect',{x:x0,y:44,width:14,height:14,fill:css('--red'),opacity:.6},s);txt(s,x0+20,56,`每次抽 ${N} 件`,{fill:css('--ink')});
+   axis(s,x0,yb,x1,yb,[2.5,2.75,3,3.25,3.5],sx,'樣本平均（滯空秒數）');$('#csd1').textContent=f(sd(a),3);$('#csd2').textContent=f(sd(b),3)}
+  ['#cn','#cN'].forEach(k=>$(k).oninput=draw);$('#cgo').onclick=draw;draw();}},
+{id:'ci',tab:'二｜信賴區間',tag:'單元二 · 信賴區間',title:'20 次抽樣、20 條區間：有幾條抓到真值？',
+ say:'每一條橫線是一次抽樣算出的 95% 信賴區間。綠色直線是真值。紅色的區間「沒抓到」真值。拉樣本數，看區間變寬還是變窄。',
+ key:'95% 信賴區間：長期來說，約 20 次有 19 次會抓到真值。樣本越多，區間越窄。',
+ init(v,side){const W=720,H=420,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="in">每次樣本數 n <output id="oin"></output></label><input type="range" id="in" min="3" max="60" value="10"></div><div class="btns"><button class="btn" id="igo">再抽 20 次</button></div><div class="stats"><div class="stat good"><b id="ihit">—</b><span>抓到真值</span></div><div class="stat bad"><b id="imiss">—</b><span>沒抓到</span></div></div>`;
+  function draw(){s.innerHTML='';const n=+$('#in').value;$('#oin').textContent=n;const mu=4.8,t=tq(n-1);let hit=0;
+   const x0=40,x1=W-20,lo=4.2,hi=5.4,sx=v=>x0+(v-lo)/(hi-lo)*(x1-x0);
+   el('line',{x1:sx(mu),y1:20,x2:sx(mu),y2:360,stroke:css('--ok'),'stroke-width':3},s);txt(s,sx(mu)+6,20,'真值 4.8%',{fill:css('--ok'),'font-weight':700});
+   el('line',{x1:sx(5),y1:20,x2:sx(5),y2:360,stroke:css('--red'),'stroke-width':1.5,'stroke-dasharray':'5 4'},s);txt(s,sx(5)+4,358,'規格上限 5.0%',{fill:css('--red'),'font-size':12});
+   for(let i=0;i<20;i++){const d=Array.from({length:n},()=>mu+rn()*0.3);const m=mean(d),h=t*sd(d)/Math.sqrt(n);const ok=m-h<=mu&&mu<=m+h;if(ok)hit++;const y=36+i*16;const c=ok?css('--navy'):css('--red');
+    el('line',{x1:sx(Math.max(lo,m-h)),y1:y,x2:sx(Math.min(hi,m+h)),y2:y,stroke:c,'stroke-width':ok?2.5:3.5},s);el('circle',{cx:sx(m),cy:y,r:4,fill:c},s)}
+   axis(s,x0,370,x1,370,[4.2,4.4,4.6,4.8,5,5.2,5.4],sx,'烘烤含水率（%）');$('#ihit').textContent=hit+' 條';$('#imiss').textContent=(20-hit)+' 條'}
+  $('#in').oninput=draw;$('#igo').onclick=draw;draw();}},
+{id:'court',tab:'三｜P 值法庭',tag:'單元三 · 假設檢定',title:'證據夠不夠，判它「真的有差」？',
+ say:'H0：新治具沒有比較快（無罪）。拉「真實改善量」和「樣本數」，法官看 P 值判決。改善量設 0 時，偶爾還是會「冤枉」判有罪嗎？多按幾次「重新開庭」。',
+ key:'P < 0.05 → 判定有差；P ≥ 0.05 → 證據不足，不是「證明沒差」。',
+ init(v,side){const W=720,H=380,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="kd">真實改善量（秒） <output id="okd"></output></label><input type="range" id="kd" min="0" max="4" step="0.5" value="2"></div><div class="ctl"><label for="kn">每組樣本數 n <output id="okn"></output></label><input type="range" id="kn" min="3" max="40" value="8"></div><div class="btns"><button class="btn" id="kgo">重新開庭（再收一次數據）</button></div><div class="stats"><div class="stat"><b id="kdiff">—</b><span>觀察到的平均差（秒）</span></div><div class="stat" id="kpb"><b id="kp">—</b><span>P 值</span></div></div>`;
+  function draw(){s.innerHTML='';const d=+$('#kd').value,n=+$('#kn').value;$('#okd').textContent=d;$('#okn').textContent=n;
+   const old=Array.from({length:n},()=>30+rn()*3),neu=Array.from({length:n},()=>30-d+rn()*3);
+   const diff=mean(old)-mean(neu),se=Math.sqrt(sd(old)**2/n+sd(neu)**2/n),t=diff/se,p=pT(t,2*n-2);const guilty=p<0.05;
+   // gauge
+   const cx=220,cy=250,R=170;const ang=p=>Math.PI*Math.sqrt(Math.min(1,p));
+   el('path',{d:`M${cx-R} ${cy} A${R} ${R} 0 0 1 ${cx+R} ${cy}`,fill:'none',stroke:css('--blueSoft'),'stroke-width':34},s);
+   const a5=ang(0.05);el('path',{d:`M${cx+R*Math.cos(a5)} ${cy-R*Math.sin(a5)} A${R} ${R} 0 0 1 ${cx+R} ${cy}`,fill:'none',stroke:css('--red'),'stroke-width':34},s);
+   const ap=Math.PI*Math.sqrt(Math.min(1,p));el('line',{x1:cx,y1:cy,x2:cx+(R-10)*Math.cos(ap),y2:cy-(R-10)*Math.sin(ap),stroke:css('--ink'),'stroke-width':5,'stroke-linecap':'round'},s);el('circle',{cx,cy,r:10,fill:css('--ink')},s);
+   txt(s,cx-R,cy+30,'P = 1',{'text-anchor':'middle'});txt(s,cx+R,cy+30,'P = 0',{'text-anchor':'middle'});txt(s,cx+R*Math.cos(a5)-20,cy-R*Math.sin(a5)-26,'α = 0.05',{fill:css('--red'),'font-weight':700,'text-anchor':'middle'});
+   txt(s,cx,cy+70,'P 值 = '+pfmt(p),{'text-anchor':'middle','font-size':22,'font-weight':900,fill:css('--ink')});
+   // verdict
+   el('rect',{x:440,y:80,width:260,height:180,rx:14,fill:guilty?css('--red'):css('--blueSoft')},s);
+   txt(s,570,140,'判決',{'text-anchor':'middle','font-size':18,fill:guilty?'#fff':css('--navy')});
+   txt(s,570,190,guilty?'有罪：真的有差':'證據不足',{'text-anchor':'middle','font-size':26,'font-weight':900,fill:guilty?'#fff':css('--navy')});
+   txt(s,570,230,guilty?'推翻 H0，新治具較快':'維持 H0，不能說有差',{'text-anchor':'middle','font-size':14,fill:guilty?'#fff':css('--ink2')});
+   if(d===0&&guilty)txt(s,570,300,'⚠ 其實沒差 → 冤枉好人（型一錯誤）',{'text-anchor':'middle',fill:css('--red'),'font-weight':700});
+   if(d>0&&!guilty)txt(s,570,300,'⚠ 其實有差 → 放走壞人（型二錯誤）',{'text-anchor':'middle',fill:css('--warn'),'font-weight':700});
+   $('#kdiff').textContent=f(diff,2);$('#kp').textContent=pfmt(p);$('#kpb').className='stat '+(guilty?'bad':'')}
+  ['#kd','#kn'].forEach(k=>$(k).oninput=draw);$('#kgo').onclick=draw;draw();}},
+{id:'errors',tab:'三｜兩種錯誤',tag:'單元三 · 型一 / 型二錯誤',title:'冤枉好人 vs 放走壞人：此消彼長',
+ say:'藍色曲線：其實沒差（H0）時的檢定結果分布；紅色曲線：其實有差時的分布。拉 α 看冤枉好人的機率，拉樣本數看放走壞人的機率怎麼變。',
+ key:'要同時降低兩種錯誤，最有效的方法是增加樣本數。',
+ init(v,side){const W=720,H=360,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="ea">顯著水準 α <output id="oea"></output></label><input type="range" id="ea" min="0.01" max="0.2" step="0.01" value="0.05"></div><div class="ctl"><label for="en">樣本數 n <output id="oen"></output></label><input type="range" id="en" min="3" max="50" value="10"></div><div class="stats"><div class="stat bad"><b id="e1">—</b><span>型一錯誤 α（冤枉好人）</span></div><div class="stat"><b id="e2">—</b><span>型二錯誤 β（放走壞人）</span></div></div>`;
+  function draw(){s.innerHTML='';const a=+$('#ea').value,n=+$('#en').value;$('#oea').textContent=f(a,2);$('#oen').textContent=n;
+   const delta=0.8*Math.sqrt(n/2);let zc=0;{let lo=0,hi=6;for(let i=0;i<50;i++){const m=(lo+hi)/2;(1-Phi(m))>a?lo=m:hi=m}zc=(lo+hi)/2}
+   const x0=30,x1=W-20,lo=-4,hi=9,sx=v=>x0+(v-lo)/(hi-lo)*(x1-x0),yb=300,sy=y=>yb-y*600;const pdf=(x,m)=>Math.exp(-((x-m)**2)/2)/Math.sqrt(2*Math.PI);
+   const area=(m,a1,b1,c,o)=>{let d='';for(let i=0;i<=100;i++){const x=a1+(b1-a1)*i/100;d+=(i?'L':'M')+sx(x)+' '+sy(pdf(x,m))}el('path',{d:d+`L${sx(b1)} ${yb} L${sx(a1)} ${yb}Z`,fill:c,opacity:o},s)};
+   area(delta,lo,zc,css('--warn'),.55);area(0,zc,hi,css('--red'),.7);
+   [[0,css('--blue'),'其實沒差（H0）'],[delta,css('--red'),'其實有差']].forEach(([m,c,n])=>{let d='';for(let i=0;i<=300;i++){const x=lo+(hi-lo)*i/300;d+=(i?'L':'M')+sx(x)+' '+sy(pdf(x,m))}el('path',{d,fill:'none',stroke:c,'stroke-width':3},s);txt(s,sx(m)+(m>0?40:-10),sy(0.4)-10,n,{'text-anchor':'middle','font-weight':700,fill:c})});
+   el('line',{x1:sx(zc),y1:40,x2:sx(zc),y2:yb,stroke:css('--ink'),'stroke-width':2,'stroke-dasharray':'6 4'},s);txt(s,sx(zc)+6,yb-12,'判決門檻',{'font-weight':700,fill:css('--ink')});
+   txt(s,sx(zc)-8,yb+24,'← 判「證據不足」',{'text-anchor':'end'});txt(s,sx(zc)+8,yb+24,'判「有差」→',{});
+   el('line',{x1:x0,y1:yb,x2:x1,y2:yb,stroke:css('--ink2')},s);
+   const beta=Phi(zc-delta);$('#e1').textContent=f(a*100,0)+'%';$('#e2').textContent=f(beta*100,0)+'%'}
+  ['#ea','#en'].forEach(k=>$(k).oninput=draw);draw();}},
+{id:'ttest',tab:'四｜t-test',tag:'單元四 · 比較兩組',title:'翼長 7 cm vs 10 cm，滯空時間真的不同嗎？',
+ say:'調整兩組的真實平均差、變異大小、樣本數，按「重新實驗」。只看三件事：兩組平均、P 值、差異的信賴區間有沒有包含 0。',
+ key:'信賴區間不包含 0、P < 0.05 → 兩組真的不同。2 水準 DOE 的每個效果，本質就是一次 t-test。',
+ init(v,side){const W=720,H=380,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="td">真實平均差（秒） <output id="otd"></output></label><input type="range" id="td" min="0" max="0.8" step="0.05" value="0.3"></div><div class="ctl"><label for="ts2">變異 σ（秒） <output id="ots2"></output></label><input type="range" id="ts2" min="0.05" max="0.6" step="0.05" value="0.3"></div><div class="ctl"><label for="tn">每組次數 n <output id="otn"></output></label><input type="range" id="tn" min="3" max="30" value="10"></div><div class="btns"><button class="btn" id="tgo2">重新實驗</button></div><div class="stats"><div class="stat" id="tpb"><b id="tp">—</b><span>P 值</span></div><div class="stat"><b id="tci">—</b><span>差異 95% 信賴區間</span></div></div>`;
+  function draw(){s.innerHTML='';const d=+$('#td').value,sg=+$('#ts2').value,n=+$('#tn').value;$('#otd').textContent=f(d,2);$('#ots2').textContent=f(sg,2);$('#otn').textContent=n;
+   const a=Array.from({length:n},()=>2.6+rn()*sg),b=Array.from({length:n},()=>2.6+d+rn()*sg);
+   const diff=mean(b)-mean(a),se=Math.sqrt(sd(a)**2/n+sd(b)**2/n),df=2*n-2,t=diff/se,p=pT(t,df),h=tq(df)*se;
+   const x0=150,x1=W-30,lo=1.4,hi=4.4,sx=v=>x0+(v-lo)/(hi-lo)*(x1-x0);
+   [['翼長 7 cm',a,css('--blue'),110],['翼長 10 cm',b,css('--red'),220]].forEach(([nm,arr,c,y])=>{txt(s,10,y-10,nm,{'font-weight':900,'font-size':17,fill:c});
+     const bins={};arr.forEach(v=>{const k=Math.round((sx(v)-x0)/12);bins[k]=(bins[k]||0)+1;el('circle',{cx:x0+k*12,cy:y-(bins[k]-1)*11,r:5,fill:c,opacity:.8},s)});
+     const m=mean(arr);el('line',{x1:sx(m),y1:y-70,x2:sx(m),y2:y+10,stroke:c,'stroke-width':3},s);txt(s,sx(m)+5,y-58,'平均 '+f(m,2),{fill:c,'font-weight':700})});
+   axis(s,x0,250,x1,250,[1.5,2,2.5,3,3.5,4],sx,'滯空秒數');
+   // diff CI
+   const dx0=x0,dx1=x1,dsx=v=>dx0+(v+0.6)/1.8*(dx1-dx0),yy=335;
+   txt(s,10,yy+5,'差異 B−A',{'font-weight':900,'font-size':15,fill:css('--ink')});
+   el('line',{x1:dsx(0),y1:yy-22,x2:dsx(0),y2:yy+22,stroke:css('--ink2'),'stroke-dasharray':'4 3'},s);txt(s,dsx(0),yy+38,'0',{'text-anchor':'middle','font-family':css('--mono')});
+   const inc0=diff-h<=0&&0<=diff+h;const c=inc0?css('--ink2'):css('--ok');
+   el('line',{x1:dsx(Math.max(-0.6,diff-h)),y1:yy,x2:dsx(Math.min(1.2,diff+h)),y2:yy,stroke:c,'stroke-width':6,'stroke-linecap':'round'},s);el('circle',{cx:dsx(diff),cy:yy,r:7,fill:c},s);
+   $('#tp').textContent=pfmt(p);$('#tpb').className='stat '+(p<0.05?'good':'');$('#tci').textContent=f(diff-h,2)+' ～ '+f(diff+h,2)}
+  ['#td','#ts2','#tn'].forEach(k=>$(k).oninput=draw);$('#tgo2').onclick=draw;draw();}},
+{id:'anova',tab:'四｜ANOVA',tag:'單元四 · 比較三組以上',title:'迴紋針 0、1、2 支：把變異切成兩塊蛋糕',
+ say:'拉三組的平均和雜訊。右邊長條把「總變異」切成「因子造成的」和「雜訊造成的」。F = 因子那塊 ÷ 雜訊那塊。',
+ key:'因子那塊越大、雜訊那塊越小，F 越大、P 越小 → 迴紋針數真的有影響。DOE 的分析引擎就是 ANOVA。',
+ init(v,side){const W=720,H=380,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="g1">迴紋針 0 支 平均 <output id="og1"></output></label><input type="range" id="g1" min="2" max="4" step="0.05" value="3.2"></div><div class="ctl"><label for="g2">迴紋針 1 支 平均 <output id="og2"></output></label><input type="range" id="g2" min="2" max="4" step="0.05" value="2.9"></div><div class="ctl"><label for="g3">迴紋針 2 支 平均 <output id="og3"></output></label><input type="range" id="g3" min="2" max="4" step="0.05" value="2.5"></div><div class="ctl"><label for="gs">雜訊 σ <output id="ogs"></output></label><input type="range" id="gs" min="0.05" max="0.8" step="0.05" value="0.3"></div><div class="btns"><button class="btn" id="ggo">重新實驗（各 8 次）</button></div><div class="stats"><div class="stat"><b id="gF">—</b><span>F 值</span></div><div class="stat" id="gpb"><b id="gp">—</b><span>P 值</span></div></div>`;
+  function draw(){s.innerHTML='';const ms=['#g1','#g2','#g3'].map(k=>+$(k).value),sg=+$('#gs').value,n=8;['#og1','#og2','#og3'].forEach((k,i)=>$(k).textContent=f(ms[i],2));$('#ogs').textContent=f(sg,2);
+   const g=ms.map(m=>Array.from({length:n},()=>m+rn()*sg)),all=g.flat(),M=mean(all);
+   const ssb=g.reduce((a,x)=>a+n*(mean(x)-M)**2,0),ssw=g.reduce((a,x)=>a+x.reduce((b,v)=>b+(v-mean(x))**2,0),0),F=(ssb/2)/(ssw/(3*n-3)),p=pF(F,2,3*n-3);
+   const x0=60,x1=460,y0=30,y1=320,lo=1,hi=5,sy=v=>y1-(v-lo)/(hi-lo)*(y1-y0),cols=[css('--blue'),css('--navy'),css('--red')];
+   for(let v=1;v<=5;v++){el('line',{x1:x0,y1:sy(v),x2:x1,y2:sy(v),stroke:css('--grid')},s);txt(s,x0-8,sy(v)+5,String(v),{'text-anchor':'end','font-family':css('--mono')})}
+   el('line',{x1:x0,y1:sy(M),x2:x1,y2:sy(M),stroke:css('--ink2'),'stroke-dasharray':'6 4'},s);txt(s,x1,sy(M)-6,'總平均',{'text-anchor':'end'});
+   g.forEach((arr,i)=>{const cx=x0+70+i*140;arr.forEach((v,j)=>el('circle',{cx:cx-24+(j%4)*16,cy:sy(v),r:5,fill:cols[i],opacity:.75},s));const m=mean(arr);el('line',{x1:cx-40,y1:sy(m),x2:cx+40,y2:sy(m),stroke:cols[i],'stroke-width':4},s);txt(s,cx,y1+28,`迴紋針 ${i} 支`,{'text-anchor':'middle','font-weight':700,fill:css('--ink')})});
+   txt(s,x0,18,'滯空秒數',{'font-weight':700});
+   // cake bar
+   const bx=530,bw=120,tot=ssb+ssw,hb=260*ssb/tot;
+   el('rect',{x:bx,y:50,width:bw,height:260-hb,fill:css('--blueSoft'),stroke:css('--line')},s);el('rect',{x:bx,y:310-hb,width:bw,height:hb,fill:css('--red')},s);
+   txt(s,bx+bw/2,40,'總變異',{'text-anchor':'middle','font-weight':900,fill:css('--ink')});
+   if(hb>24)txt(s,bx+bw/2,310-hb/2+5,'因子 '+f(ssb/tot*100,0)+'%',{'text-anchor':'middle',fill:'#fff','font-weight':700});
+   if(260-hb>24)txt(s,bx+bw/2,50+(260-hb)/2+5,'雜訊 '+f(ssw/tot*100,0)+'%',{'text-anchor':'middle',fill:css('--navy'),'font-weight':700});
+   $('#gF').textContent=f(F,1);$('#gp').textContent=pfmt(p);$('#gpb').className='stat '+(p<0.05?'good':'')}
+  ['#g1','#g2','#g3','#gs'].forEach(k=>$(k).oninput=draw);$('#ggo').onclick=draw;draw();}},
+{id:'reg',tab:'五｜回歸與殘差',tag:'單元五 · 相關、回歸、殘差',title:'斜坡越高滾越遠？畫一條線來預測',
+ say:'滾球實驗：斜坡高度 X → 滾動距離 Y。調雜訊看 R² 怎麼變；打開「真實關係是彎的」，看殘差圖出現規律。',
+ key:'R² 越接近 1，線越能解釋變異。殘差圖要「亂亂的」；出現彎曲，代表需要二次項 → Day 4 的 RSM。',
+ init(v,side){const W=720,H=400,s=svg(W,H);v.appendChild(s);
+  side.querySelector('.ctlbox').innerHTML=`<div class="ctl"><label for="rs">量測雜訊 <output id="ors"></output></label><input type="range" id="rs" min="0" max="40" value="10"></div><div class="toggles"><label><input type="checkbox" id="rc">真實關係是彎的</label><label><input type="checkbox" id="rr" checked>顯示殘差圖</label></div><div class="btns"><button class="btn" id="rgo">重做實驗</button></div><div class="stats"><div class="stat"><b id="rR">—</b><span>R²</span></div><div class="stat"><b id="rEq">—</b><span>Y = b0 + b1·X</span></div></div>`;
+  function draw(){s.innerHTML='';const ns=+$('#rs').value,curve=$('#rc').checked,showR=$('#rr').checked;$('#ors').textContent=ns;
+   const X=[],Y=[];[5,10,15,20,25].forEach(h=>{for(let k=0;k<3;k++){X.push(h);Y.push((curve?20+14*h-0.38*h*h:10+8*h)+rn()*ns)}});
+   const mx=mean(X),my=mean(Y),b1=X.reduce((a,x,i)=>a+(x-mx)*(Y[i]-my),0)/X.reduce((a,x)=>a+(x-mx)**2,0),b0=my-b1*mx;
+   const res=Y.map((y,i)=>y-(b0+b1*X[i])),r2=1-res.reduce((a,r)=>a+r*r,0)/Y.reduce((a,y)=>a+(y-my)**2,0);
+   const x0=60,x1=showR?400:W-20,y0=20,y1=300,sx=v=>x0+(v)/30*(x1-x0),sy=v=>y1-v/240*(y1-y0);
+   for(let v=0;v<=240;v+=60){el('line',{x1:x0,y1:sy(v),x2:x1,y2:sy(v),stroke:css('--grid')},s);txt(s,x0-8,sy(v)+5,String(v),{'text-anchor':'end','font-family':css('--mono')})}
+   X.forEach((x,i)=>el('circle',{cx:sx(x),cy:sy(Y[i]),r:6,fill:css('--blue'),opacity:.8},s));
+   el('line',{x1:sx(0),y1:sy(b0),x2:sx(30),y2:sy(b0+b1*30),stroke:css('--red'),'stroke-width':3},s);
+   axis(s,x0,y1,x1,y1,[0,5,10,15,20,25,30],sx,'斜坡高度 X（cm）');txt(s,x0,12,'滾動距離 Y（cm）',{'font-weight':700});
+   if(showR){const rx0=450,rx1=W-20,rsx=v=>rx0+v/30*(rx1-rx0),mid=160,rsy=v=>mid-v*1.6;
+     txt(s,rx0,40,'殘差圖（實際 − 預測）',{'font-weight':900,fill:css('--ink')});el('line',{x1:rx0,y1:mid,x2:rx1,y2:mid,stroke:css('--ink2'),'stroke-width':1.5},s);
+     el('rect',{x:rx0,y:60,width:rx1-rx0,height:200,fill:'none',stroke:css('--line')},s);
+     X.forEach((x,i)=>el('circle',{cx:rsx(x),cy:Math.max(62,Math.min(258,rsy(res[i]))),r:5.5,fill:css('--red'),opacity:.8},s));
+     txt(s,(rx0+rx1)/2,290,curve?'出現彎曲規律 → 直線不夠用':'亂亂的、沒規律 → 模型 OK',{'text-anchor':'middle','font-weight':700,fill:curve?css('--red'):css('--ok')})}
+   $('#rR').textContent=f(r2,3);$('#rEq').textContent=f(b0,1)+' + '+f(b1,2)+'X'}
+  ['#rs'].forEach(k=>$(k).oninput=draw);['#rc','#rr'].forEach(k=>$(k).onchange=draw);$('#rgo').onclick=draw;draw();}}
+];
+
+
+const tabs=$('#tabs'),stage=$('#stage');
+function show(i){
+  [...tabs.children].forEach((b,k)=>b.setAttribute('aria-selected',k===i));
+  const L=LESSONS[i];
+  stage.innerHTML=`<div class="viz" id="viz"></div><aside class="side"><span class="tag">${L.tag}</span><h2>${L.title}</h2><p class="say">${L.say}</p><div class="ctlbox" style="display:flex;flex-direction:column;gap:12px"></div><p class="key">${L.key}</p></aside>`;
+  L.init($('#viz'),stage.querySelector('.side'));
+  try{localStorage.setItem('doe_d2_tab',L.id)}catch(e){}
+  if(history.replaceState)history.replaceState(null,'','#'+L.id);
+}
+LESSONS.forEach((L,i)=>{const b=document.createElement('button');b.role='tab';b.textContent=L.tab;b.onclick=()=>show(i);tabs.appendChild(b)});
+let start=0;const h=location.hash.slice(1);let saved=null;try{saved=localStorage.getItem('doe_d2_tab')}catch(e){}
+const pickId=h||saved;const k=LESSONS.findIndex(L=>L.id===pickId);if(k>=0)start=k;
+show(start);
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;const cur=[...tabs.children].findIndex(b=>b.getAttribute('aria-selected')==='true');if(e.key==='ArrowRight'&&cur<LESSONS.length-1)show(cur+1);if(e.key==='ArrowLeft'&&cur>0)show(cur-1)});
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>show([...tabs.children].findIndex(b=>b.getAttribute('aria-selected')==='true')));
+})();
+</script>
+</html>
